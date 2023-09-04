@@ -1,0 +1,6 @@
+name: Hardcore
+version: '${project.version}'
+main: ca.bungo.hardcore.Hardcore
+api-version: 1.19
+libraries:
+  - systems.manifold:manifold-ext:2023.1.15
