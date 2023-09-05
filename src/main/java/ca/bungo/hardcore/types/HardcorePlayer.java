@@ -33,6 +33,7 @@ public class HardcorePlayer implements Listener, ConfigurationSerializable {
     private final CooldownHandler cooldownHandler;
 
     private final Map<String, Module> knownModules;
+    private final int xpScaling = 250;
 
     private int level;
     private double experience;
@@ -101,9 +102,9 @@ public class HardcorePlayer implements Listener, ConfigurationSerializable {
     public void addExperience(double amount) {
         this.experience += amount;
 
-        if(this.experience >= (1000 + this.level*500)){
+        if(this.experience >= (1000 + this.level*xpScaling)){
             this.addLevel(1);
-            this.setExperience(this.experience - (1000 + (this.level-1)*500));
+            this.setExperience(this.experience - (1000 + (this.level-1)*xpScaling));
         }
 
         saveConfig();
@@ -111,13 +112,13 @@ public class HardcorePlayer implements Listener, ConfigurationSerializable {
     public void setExperience(double experience) {
         this.experience = experience;
 
-        if(this.experience >= (1000 + this.level*500)){
-            this.setExperience(this.experience - (1000 + (this.level)*500));
+        if(this.experience >= (1000 + this.level*xpScaling)){
+            this.setExperience(this.experience - (1000 + (this.level)*xpScaling));
             this.addLevel(1);
         }
         else if(this.experience < 0){
             this.removeLevel(1);
-            this.setExperience((1000 + (this.level)*500) + this.experience);
+            this.setExperience((1000 + (this.level)*xpScaling) + this.experience);
         }
 
         saveConfig();
@@ -127,7 +128,7 @@ public class HardcorePlayer implements Listener, ConfigurationSerializable {
 
         if(this.experience < 0){
             this.removeLevel(1);
-            this.setExperience((1000 + this.level*500) + this.experience);
+            this.setExperience((1000 + this.level*xpScaling) + this.experience);
         }
 
         saveConfig();
@@ -258,7 +259,7 @@ public class HardcorePlayer implements Listener, ConfigurationSerializable {
         builder.append("&#753012UUID: &e").append(this.uuid).append("\n");
         builder.append("&#753012Level: &e").append(this.level).append("\n");
         builder.append("&#753012Current Experience: &e").append(this.experience).append("\n");
-        builder.append("&#753012Experience For Level-Up: &e").append(1000 + (level*500)).append("\n");
+        builder.append("&#753012Experience For Level-Up: &e").append(1000 + (level*xpScaling)).append("\n");
         builder.append("&#753012Unspent Points: &e").append(this.points).append("\n");
         builder.append("&#753012Module List:\n");
         Set<String> modules = knownModules.keySet();

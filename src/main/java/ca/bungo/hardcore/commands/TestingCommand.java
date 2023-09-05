@@ -3,12 +3,20 @@ package ca.bungo.hardcore.commands;
 import ca.bungo.hardcore.Hardcore;
 import ca.bungo.hardcore.modules.Module;
 import ca.bungo.hardcore.types.HardcorePlayer;
+import net.minecraft.world.level.levelgen.WorldDimensions;
+import org.apache.commons.io.FileUtils;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class TestingCommand extends Command {
 
@@ -18,7 +26,6 @@ public class TestingCommand extends Command {
         this.description = "Testing Command";
     }
 
-    int _temp = 0;
 
     @Override
     public boolean execute(@NotNull CommandSender commandSender, @NotNull String s, @NotNull String[] args) {

@@ -56,7 +56,6 @@ public final class Hardcore extends JavaPlugin {
 
         teleportUtility = new TeleportUtility();
 
-
         this.scoreboardManager = Bukkit.getScoreboardManager();
         this.mainScoreboard = this.scoreboardManager.getMainScoreboard();
 

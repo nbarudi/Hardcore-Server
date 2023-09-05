@@ -3,14 +3,31 @@ package extensions.org.bukkit.entity.Player;
 import ca.bungo.hardcore.Hardcore;
 import ca.bungo.hardcore.managers.PlayerManager;
 import ca.bungo.hardcore.types.HardcorePlayer;
+import com.google.gson.JsonObject;
+import io.papermc.paper.advancement.AdvancementDisplay;
+import io.papermc.paper.adventure.PaperAdventure;
 import manifold.ext.rt.api.Extension;
 import manifold.ext.rt.api.This;
-import org.bukkit.Bukkit;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.text.Component;
+import net.minecraft.advancements.*;
+import net.minecraft.advancements.critereon.ImpossibleTrigger;
+import net.minecraft.advancements.critereon.SerializationContext;
+import net.minecraft.network.protocol.game.ClientboundUpdateAdvancementsPacket;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_20_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.scoreboard.Criteria;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 @Extension
 public class PlayerExtension {
@@ -37,7 +54,52 @@ public class PlayerExtension {
         PlayerManager.playerList.put(player.getUniqueId().toString(), hardcorePlayer);
     }
 
-    public static void unload() {
+    public static void sendFlare(@This Player player, Component title, Component description){
+        ServerPlayer serverPlayer = ((CraftPlayer)player).getHandle();
+
+        ResourceLocation internalKey = new ResourceLocation("hardcore.plugin", "notification");
+
+        AdvancementRewards advRewards = new AdvancementRewards(0, new ResourceLocation[0],
+                new ResourceLocation[0], null);
+
+        Map<String, Criterion> advCriteria = new HashMap<>();
+        String[][] advRequirements;
+
+        advCriteria.put("for_free", new Criterion(new ImpossibleTrigger.TriggerInstance()));
+
+        ArrayList<String[]> fixedRequirements = new ArrayList<>();
+        fixedRequirements.add(new String[] {"for_free"});
+        advRequirements = Arrays.stream(fixedRequirements.toArray()).toArray(String[][]::new);
+
+        DisplayInfo display = new DisplayInfo(
+                CraftItemStack.asNMSCopy(new ItemStack(Material.PAPER)),
+                PaperAdventure.asVanilla(title.append(Component.newline()).append(description)),
+                PaperAdventure.asVanilla(Component.text("Dummy Description")),
+                null,
+                FrameType.CHALLENGE,
+                true,
+                false,
+                true
+        );
+
+        Advancement advancement = new Advancement(internalKey, null, display, advRewards,
+                advCriteria, advRequirements, false);
+
+        Map<ResourceLocation, AdvancementProgress> prg = new HashMap<>();
+        AdvancementProgress progress = new AdvancementProgress();
+        progress.update(advCriteria, advRequirements);
+        progress.getCriterion("for_free").grant();
+        prg.put(internalKey, progress);
+
+        ClientboundUpdateAdvancementsPacket packet = new ClientboundUpdateAdvancementsPacket(false,
+                List.of(advancement), new HashSet<>(), prg);
+        serverPlayer.connection.send(packet);
+
+        HashSet<ResourceLocation> rm = new HashSet<>();
+        rm.add(internalKey);
+        prg.clear();
+        packet = new ClientboundUpdateAdvancementsPacket(false, new ArrayList<>(), rm, prg);
+        serverPlayer.connection.send(packet);
 
     }
 
