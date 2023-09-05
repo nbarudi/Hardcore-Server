@@ -15,6 +15,9 @@ import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.RayTraceResult;
@@ -38,6 +41,9 @@ public class StrangeGolemBoss extends Boss {
     private boolean isRegenning = false;
     private boolean triggeringSlam = false;
     private int spawnTask = 0;
+
+    private double projectileDamage = 0;
+    private boolean allowProjectileDamage = true;
     private void timer10T(){
         if(finishedSpawning) {
             Bukkit.getScheduler().cancelTask(spawnTask);
@@ -147,7 +153,7 @@ public class StrangeGolemBoss extends Boss {
     @TickTimer(ticks = 150)
     private void speedBoostTimer(){
         int chance = random.nextInt(0, 200);
-        if(chance > 167){
+        if(chance > 137){
             AttributeInstance attribute =  self.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
             if(attribute == null) return;
             attribute.setBaseValue(attribute.getValue() + 0.1);
@@ -155,7 +161,17 @@ public class StrangeGolemBoss extends Boss {
             Bukkit.getScheduler().scheduleSyncDelayedTask(Hardcore.instance, () ->{
                 attribute.setBaseValue(attribute.getValue()-0.1);
                 messageAllInRange("&5I am getting tired...", 20);
-            }, 480);
+            }, 550);
+        }
+    }
+
+    @TickTimer(ticks = 100)
+    private void screwProjectileDamage(){
+        if(this.projectileDamage >= 35){
+            this.allowProjectileDamage = false;
+            this.projectileDamage = 0;
+            messageAllInRange("&4You know what... Lets disable those arrows for a little while!", 25);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(Hardcore.instance, ()->allowProjectileDamage = true, 500);
         }
     }
 
@@ -195,6 +211,8 @@ public class StrangeGolemBoss extends Boss {
         }, 3 ,3);
 
         self = selfGolem;
+        projectileDamage = 0;
+        allowProjectileDamage = true;
         return true;
     }
 
@@ -202,4 +220,31 @@ public class StrangeGolemBoss extends Boss {
     public void onDeath(EntityDeathEvent event) {
         event.getDrops().clear();
     }
+
+    @EventHandler
+    public void onHurt(EntityDamageEvent event){
+        if(event.getEntity() == self){
+            if(event.getCause().equals(EntityDamageEvent.DamageCause.PROJECTILE)){
+                if(allowProjectileDamage)
+                    projectileDamage += event.getDamage();
+                else
+                    event.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onDamagingOther(EntityDamageByEntityEvent event){
+        if(event.getDamager() == self){
+            Entity entity = event.getEntity();
+            if(entity instanceof Player player){
+                if(player.isBlocking()){
+                    player.setCooldown(Material.SHIELD, 200);
+                }
+                player.setVelocity(new Vector(0,1,0));
+            }
+        }
+    }
+
+
 }

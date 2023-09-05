@@ -2,6 +2,7 @@ package ca.bungo.hardcore.features.bosses.types;
 
 import ca.bungo.hardcore.Hardcore;
 import ca.bungo.hardcore.features.bosses.Boss;
+import ca.bungo.hardcore.types.timings.TickTimer;
 import ca.bungo.hardcore.utility.MathUtility;
 import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.Bukkit;
@@ -22,6 +23,8 @@ import java.util.List;
 public class SuperCreeperBoss extends Boss {
 
     private NamespacedKey localKey;
+    private double projectileDamage = 0;
+    private boolean allowProjectileDamage = true;
 
     /**
      * This supports TimerMethod types. What this means is you can name a function like the following:
@@ -90,6 +93,8 @@ public class SuperCreeperBoss extends Boss {
         selfCreeper.setMaxFuseTicks(Integer.MAX_VALUE);
         selfCreeper.setPowered(true);
         self = selfCreeper;
+        projectileDamage = 0;
+        allowProjectileDamage = true;
 
         return true;
     }
@@ -97,7 +102,7 @@ public class SuperCreeperBoss extends Boss {
     private void timer1M(){
         //Smite Attack
         List<Entity> nearBy = self.getNearbyEntities(5, 5, 5);
-        if(nearBy.size() > 0){
+        if(!nearBy.isEmpty()){
             this.messageAllInRange("Feel my Lightning!", 20);
             for(Entity ent : nearBy){
                 if(ent == self) continue;
@@ -152,7 +157,7 @@ public class SuperCreeperBoss extends Boss {
         }
         else if(chance <= 60){
             List<Entity> near = self.getNearbyEntities(10, 10, 10);
-            if(near.size() > 0){
+            if(!near.isEmpty()){
                 this.messageAllInRange("&eEat my Explosives!", 30);
                 for(Entity ent : near){
                     if(ent instanceof Player){
@@ -163,6 +168,16 @@ public class SuperCreeperBoss extends Boss {
                     }
                 }
             }
+        }
+    }
+
+    @TickTimer(ticks = 100)
+    private void screwProjectileDamage(){
+        if(this.projectileDamage >= 75){
+            this.allowProjectileDamage = false;
+            this.projectileDamage = 0;
+            messageAllInRange("&4You know what... Lets disable those arrows for a little while!", 25);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(Hardcore.instance, ()->allowProjectileDamage = true, 500);
         }
     }
 
@@ -179,6 +194,12 @@ public class SuperCreeperBoss extends Boss {
             else if(event.getCause().equals(EntityDamageEvent.DamageCause.SUICIDE)) event.setDamage(0);
             else if(event.getCause().equals(EntityDamageEvent.DamageCause.BLOCK_EXPLOSION)) event.setDamage(0);
             else if(event.getCause().equals(EntityDamageEvent.DamageCause.LIGHTNING)) event.setDamage(0);
+            else if(event.getCause().equals(EntityDamageEvent.DamageCause.PROJECTILE)){
+                if(allowProjectileDamage)
+                    this.projectileDamage += event.getDamage();
+                else
+                    event.setCancelled(true);
+            }
         }
     }
 

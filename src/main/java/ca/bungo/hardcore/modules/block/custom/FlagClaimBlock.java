@@ -11,12 +11,11 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -78,7 +77,7 @@ public class FlagClaimBlock extends CustomBlockModule implements CraftableModule
         }
 
         private void buildCoreInventory(){
-            String ownerUUID = FlagClaimBlock.this.ownedBy.get(hostFlag);
+            String ownerUUID = FlagClaimBlock.ownedBy.get(hostFlag);
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(ownerUUID));
             coreInventory = Bukkit.createInventory(this, 9, (offlinePlayer.getName() + "'s Claim Manager").convertToComponent());
             for(int i = 0; i < 9; i++)
@@ -114,14 +113,14 @@ public class FlagClaimBlock extends CustomBlockModule implements CraftableModule
 
             allyInventory.setItem(1, new ItemStackBuilder(Material.AIR)
                     .from(Hardcore.instance.customItemManager.getCustomItem("biometric"))
-                    .setName("&e" + Bukkit.getOfflinePlayer(UUID.fromString(FlagClaimBlock.this.ownedBy.get(hostFlag))).getName() + "'s Biometric")
-                    .addPDC(NamespacedKey.fromString("biometric", Hardcore.instance), FlagClaimBlock.this.ownedBy.get(hostFlag))
-                    .setPlayerHead(FlagClaimBlock.this.ownedBy.get(hostFlag))
+                    .setName("&e" + Bukkit.getOfflinePlayer(UUID.fromString(FlagClaimBlock.ownedBy.get(hostFlag))).getName() + "'s Biometric")
+                    .addPDC(NamespacedKey.fromString("biometric", Hardcore.instance), FlagClaimBlock.ownedBy.get(hostFlag))
+                    .setPlayerHead(FlagClaimBlock.ownedBy.get(hostFlag))
                     .build());
             allyInventory.setItem(4, new ItemStack(Material.AIR));
             allyInventory.setItem(7, new ItemStack(Material.AIR));
 
-            List<String> allies = FlagClaimBlock.this.allies.get(hostFlag);
+            List<String> allies = FlagClaimBlock.allies.get(hostFlag);
 
             for(String uuid : allies){
                 ItemStack biometric = new ItemStackBuilder(Material.AIR)
@@ -174,7 +173,7 @@ public class FlagClaimBlock extends CustomBlockModule implements CraftableModule
             else if(topInventory.equals(allyInventory)){
                 String uuid = getBioUUID(stack);
                 if(uuid == null) return true;
-                if(uuid.equals(FlagClaimBlock.this.ownedBy.get(hostFlag))) return true;
+                if(uuid.equals(FlagClaimBlock.ownedBy.get(hostFlag))) return true;
             }
             return true;
         }
@@ -186,16 +185,16 @@ public class FlagClaimBlock extends CustomBlockModule implements CraftableModule
 
                 ItemStack ally2 = allyInventory.getItem(4);
                 ItemStack ally3 = allyInventory.getItem(7);
-                FlagClaimBlock.this.allies.get(hostFlag).clear();
+                FlagClaimBlock.allies.get(hostFlag).clear();
                 if(ally2 != null){
                     String allyUUID = getBioUUID(ally2);
                     if(allyUUID == null) return;
-                    FlagClaimBlock.this.allies.get(hostFlag).add(allyUUID);
+                    FlagClaimBlock.allies.get(hostFlag).add(allyUUID);
                 }
                 if(ally3 != null){
                     String allyUUID = getBioUUID(ally3);
                     if(allyUUID == null) return;
-                    FlagClaimBlock.this.allies.get(hostFlag).add(allyUUID);
+                    FlagClaimBlock.allies.get(hostFlag).add(allyUUID);
                 }
 
             }
@@ -218,10 +217,10 @@ public class FlagClaimBlock extends CustomBlockModule implements CraftableModule
         }
     }
 
-    private final Map<Interaction, String> ownedBy;
-    private final Map<Interaction, List<String>> allies;
+    private static final Map<Interaction, String> ownedBy = new HashMap<>();
+    private static final Map<Interaction, List<String>> allies = new HashMap<>();
     private final Map<Interaction, BlockFace> facing;
-    private final Map<Interaction, Long> claimedChunks;
+    private static final Map<Interaction, Long> claimedChunks = new HashMap<>();
 
     private final Map<Interaction, FlagInventoryHolder> interactionInventory;
     private final Map<Interaction, String> flagColor;
@@ -230,10 +229,7 @@ public class FlagClaimBlock extends CustomBlockModule implements CraftableModule
         super(moduleName, Hardcore.instance.customItemManager.getCustomItem("claimFlag"));
         this.blockKey = "claim-flag";
 
-        this.ownedBy = new HashMap<>();
-        this.allies = new HashMap<>();
         this.facing = new HashMap<>();
-        this.claimedChunks = new HashMap<>();
         this.interactionInventory = new HashMap<>();
         this.flagColor = new HashMap<>();
     }
@@ -259,11 +255,11 @@ public class FlagClaimBlock extends CustomBlockModule implements CraftableModule
         List<String> allies = section.getStringList("allies");
         String iB64 = section.getString("storage");
 
-        this.ownedBy.put(interaction, owner);
+        ownedBy.put(interaction, owner);
         this.facing.put(interaction, face);
-        this.claimedChunks.put(interaction, chunk);
+        claimedChunks.put(interaction, chunk);
         this.flagColor.put(interaction, color);
-        this.allies.put(interaction, allies);
+        FlagClaimBlock.allies.put(interaction, allies);
 
         updateFlag(interaction, iB64);
     }
@@ -323,7 +319,7 @@ public class FlagClaimBlock extends CustomBlockModule implements CraftableModule
     @Override
     protected void breakBlock(Player whoBroke, ItemDisplay display, Entity interaction) {
         Interaction inter = (Interaction) interaction;
-        String ownerUUID = this.ownedBy.get(inter);
+        String ownerUUID = ownedBy.get(inter);
 
         if(whoBroke == null){
             if(ownerUUID != null){
@@ -377,7 +373,7 @@ public class FlagClaimBlock extends CustomBlockModule implements CraftableModule
         return List.of("crafting-" + blockKey);
     }
 
-    private boolean isChunkClaimed(Chunk chunk){
+    public static boolean isChunkClaimed(Chunk chunk){
         for(Map.Entry<Interaction, Long> claimed : claimedChunks.entrySet()){
             Chunk claimedChunk = claimed.getKey().getChunk();
             if(chunk.getChunkKey() == claimedChunk.getChunkKey())
@@ -386,7 +382,7 @@ public class FlagClaimBlock extends CustomBlockModule implements CraftableModule
         return false;
     }
 
-    private List<String> getChunkOwner(Chunk chunk){
+    public static List<String> getChunkOwner(Chunk chunk){
         List<String> owners = new ArrayList<>();
         if(!isChunkClaimed(chunk)) return null;
         for(Map.Entry<Interaction, Long> claimed : claimedChunks.entrySet()) {
@@ -411,7 +407,7 @@ public class FlagClaimBlock extends CustomBlockModule implements CraftableModule
     @Override
     protected void placedBy(Interaction interaction, Player whoPlaced) {
         if(whoPlaced == null) return;
-        this.ownedBy.put(interaction, whoPlaced.getUniqueId().toString());
+        ownedBy.put(interaction, whoPlaced.getUniqueId().toString());
         facing.put(interaction, whoPlaced.getFacing());
     }
     @Override
@@ -461,28 +457,34 @@ public class FlagClaimBlock extends CustomBlockModule implements CraftableModule
         }
     }
 
-    boolean deb = false;
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    public void onInteractClaimHandler(PlayerInteractEvent event){
-        if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)){
-            Block block = event.getClickedBlock();
-            if(block == null) return;
+    @EventHandler
+    public void onPlace(BlockPlaceEvent event){
+        Player player = event.getPlayer();
+        Block block = event.getBlock();
+        Chunk chunk = block.getChunk();
+        if(isChunkClaimed(chunk)){
+            List<String> owners = getChunkOwner(chunk);
+            if(owners == null || owners.isEmpty()) return;
+            if(!owners.contains(player.getUniqueId().toString())){
+                event.setCancelled(true);
+                player.sendMessage(("&4This chunk has been claimed by " +
+                        Bukkit.getOfflinePlayer(UUID.fromString(owners.get(0))).getName()).convertToComponent());
+            }
+        }
+    }
 
-            Chunk chunk = block.getChunk();
-            if(isChunkClaimed(chunk)){
-                List<String> owners = getChunkOwner(chunk);
-                if(owners == null || owners.isEmpty()) return;
-                if(!owners.contains(event.getPlayer().getUniqueId().toString())){
-                    if(deb) {
-                        event.setCancelled(true);
-                        return;
-                    }
-                    deb = true;
-                    event.setCancelled(true);
-                    event.getPlayer().sendMessage(("&4This chunk has been claimed by "
-                            + Bukkit.getOfflinePlayer(UUID.fromString(owners.get(0))).getName()).convertToComponent());
-                    Bukkit.getScheduler().scheduleSyncDelayedTask(Hardcore.instance, () -> deb = false, 10);
-                }
+    @EventHandler
+    public void onBreak(BlockBreakEvent event){
+        Player player = event.getPlayer();
+        Block block = event.getBlock();
+        Chunk chunk = block.getChunk();
+        if(isChunkClaimed(chunk)){
+            List<String> owners = getChunkOwner(chunk);
+            if(owners == null || owners.isEmpty()) return;
+            if(!owners.contains(player.getUniqueId().toString())){
+                event.setCancelled(true);
+                player.sendMessage(("&4This chunk has been claimed by " +
+                        Bukkit.getOfflinePlayer(UUID.fromString(owners.get(0))).getName()).convertToComponent());
             }
         }
     }

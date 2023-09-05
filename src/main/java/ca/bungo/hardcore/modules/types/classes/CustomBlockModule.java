@@ -2,6 +2,7 @@ package ca.bungo.hardcore.modules.types.classes;
 
 import ca.bungo.hardcore.Hardcore;
 import ca.bungo.hardcore.modules.Module;
+import ca.bungo.hardcore.modules.block.custom.FlagClaimBlock;
 import io.papermc.paper.event.player.PrePlayerAttackEntityEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -25,10 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.AxisAngle4f;
 import org.joml.Vector3f;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public abstract class CustomBlockModule extends Module implements Listener {
 
@@ -167,12 +165,20 @@ public abstract class CustomBlockModule extends Module implements Listener {
         if(this.verifyItem(player.getInventory().getItemInMainHand()) || this.verifyItem(player.getInventory().getItemInOffHand()))
             if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
                 if(this.passesCost(player)){
+                    if(event.getClickedBlock() != null &&
+                            FlagClaimBlock.isChunkClaimed(event.getClickedBlock().getChunk())){
+                        List<String> owners = FlagClaimBlock.getChunkOwner(event.getClickedBlock().getChunk());
+                        if(owners != null && !owners.contains(event.getPlayer().getUniqueId().toString())){
+                            event.getPlayer().sendMessage("&4You do not own this claim!".convertToComponent());
+                            return;
+                        }
+                    }
                     Block block = event.getClickedBlock();
                     BlockFace face = event.getBlockFace();
                     assert block != null;
                     block = block.getRelative(face);
                     if(!block.getLocation().getNearbyEntities(0, 0, 0).isEmpty()) return;
-                    Interaction interaction = placeBlock(block.getLocation(), player);
+                    placeBlock(block.getLocation(), player);
                     removeItem(player);
                 }
             }
@@ -208,6 +214,13 @@ public abstract class CustomBlockModule extends Module implements Listener {
         if(event.getAttacked().getType().equals(EntityType.INTERACTION)){
             ItemDisplay display = this.displays.get((Interaction) event.getAttacked());
             if(display != null){
+                if(FlagClaimBlock.isChunkClaimed(display.getChunk())){
+                    List<String> owners = FlagClaimBlock.getChunkOwner(display.getChunk());
+                    if(owners != null && !owners.contains(event.getPlayer().getUniqueId().toString())){
+                        event.getPlayer().sendMessage("&4You do not own this claim!".convertToComponent());
+                        return;
+                    }
+                }
                 breakBlock(player, display, event.getAttacked());
             }
         }
