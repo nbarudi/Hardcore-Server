@@ -4,6 +4,7 @@ import ca.bungo.hardcore.Hardcore;
 import ca.bungo.hardcore.modules.Module;
 import ca.bungo.hardcore.modules.block.custom.*;
 import ca.bungo.hardcore.modules.command.FeedCommandModule;
+import ca.bungo.hardcore.modules.command.FixCommandModule;
 import ca.bungo.hardcore.modules.command.HomeCommandModule;
 import ca.bungo.hardcore.modules.event.RespawnEventModule;
 import ca.bungo.hardcore.modules.generic.*;
@@ -124,6 +125,7 @@ public class ModuleManager {
 
         commandModuleMap.put("FeedCommandModule", new FeedCommandModule("FeedCommandModule", "feed"));
         commandModuleMap.put("HomeCommandModule", new HomeCommandModule("HomeCommandModule"));
+        commandModuleMap.put("FixCommandModule", new FixCommandModule("FixCommandModule", "fix"));
 
         for(CommandModule commandModule : commandModuleMap.values()){
             Hardcore.instance.getServer().getCommandMap().register(commandModule.getModuleName(), commandModule.getModuleCommand());
