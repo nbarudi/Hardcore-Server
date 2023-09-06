@@ -1,5 +1,6 @@
 package ca.bungo.hardcore;
 
+import ca.bungo.hardcore.commands.AnnounceCommand;
 import ca.bungo.hardcore.commands.InfoCommand;
 import ca.bungo.hardcore.commands.TestingCommand;
 import ca.bungo.hardcore.events.PlayerConnectionEvents;
@@ -75,6 +76,7 @@ public final class Hardcore extends JavaPlugin {
     private void registerCommands(){
         this.getServer().getCommandMap().register("hardcore", new TestingCommand("test"));
         this.getServer().getCommandMap().register("hardcore", new InfoCommand("info"));
+        this.getServer().getCommandMap().register("hardcore", new AnnounceCommand("announce"));
     }
 
     private void registerEvents(){

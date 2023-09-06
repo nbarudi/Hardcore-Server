@@ -10,6 +10,7 @@ import manifold.ext.rt.api.Extension;
 import manifold.ext.rt.api.This;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.Style;
 import net.minecraft.advancements.*;
 import net.minecraft.advancements.critereon.ImpossibleTrigger;
 import net.minecraft.advancements.critereon.SerializationContext;
@@ -73,7 +74,7 @@ public class PlayerExtension {
 
         DisplayInfo display = new DisplayInfo(
                 CraftItemStack.asNMSCopy(new ItemStack(Material.PAPER)),
-                PaperAdventure.asVanilla(title.append(Component.newline()).append(description)),
+                PaperAdventure.asVanilla(title.appendNewline().append(description)),
                 PaperAdventure.asVanilla(Component.text("Dummy Description")),
                 null,
                 FrameType.CHALLENGE,
