@@ -3,17 +3,12 @@ package extensions.org.bukkit.entity.Player;
 import ca.bungo.hardcore.Hardcore;
 import ca.bungo.hardcore.managers.PlayerManager;
 import ca.bungo.hardcore.types.HardcorePlayer;
-import com.google.gson.JsonObject;
-import io.papermc.paper.advancement.AdvancementDisplay;
 import io.papermc.paper.adventure.PaperAdventure;
 import manifold.ext.rt.api.Extension;
 import manifold.ext.rt.api.This;
-import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.Style;
 import net.minecraft.advancements.*;
 import net.minecraft.advancements.critereon.ImpossibleTrigger;
-import net.minecraft.advancements.critereon.SerializationContext;
 import net.minecraft.network.protocol.game.ClientboundUpdateAdvancementsPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -23,10 +18,7 @@ import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_20_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scoreboard.Criteria;
-import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -101,7 +93,6 @@ public class PlayerExtension {
         prg.clear();
         packet = new ClientboundUpdateAdvancementsPacket(false, new ArrayList<>(), rm, prg);
         serverPlayer.connection.send(packet);
-
     }
 
 }

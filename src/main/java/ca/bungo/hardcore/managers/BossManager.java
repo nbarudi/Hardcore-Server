@@ -2,6 +2,7 @@ package ca.bungo.hardcore.managers;
 
 import ca.bungo.hardcore.Hardcore;
 import ca.bungo.hardcore.features.bosses.Boss;
+import ca.bungo.hardcore.features.bosses.types.BardgoBoss;
 import ca.bungo.hardcore.features.bosses.types.StrangeGolemBoss;
 import ca.bungo.hardcore.features.bosses.types.SuperCreeperBoss;
 import org.bukkit.Bukkit;
@@ -14,8 +15,6 @@ public class BossManager {
 
     private final Map<String, Boss> bossMap;
 
-
-
     public BossManager(){
         bossMap = new HashMap<>();
 
@@ -26,6 +25,7 @@ public class BossManager {
 
         bossMap.put("SuperCreeperBoss", new SuperCreeperBoss("SuperCreeperBoss"));
         bossMap.put("StrangeGolemBoss", new StrangeGolemBoss("StrangeGolemBoss"));
+        bossMap.put("BardgoBoss", new BardgoBoss("BardgoBoss"));
 
         for(Boss boss : bossMap.values()){
             Bukkit.getPluginManager().registerEvents(boss, Hardcore.instance);
