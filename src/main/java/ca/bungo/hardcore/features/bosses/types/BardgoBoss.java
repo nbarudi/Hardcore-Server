@@ -168,9 +168,6 @@ public class BardgoBoss extends Boss {
                 self.setHealth(self.getHealth() + 4);
             }
             bossBar.color(BossBar.Color.values()[random.nextInt(0, BossBar.Color.values().length)]);
-
-            //ToDo: Spawn Effect
-
         }, 3 ,3);
 
         this.damageCause.clear();
@@ -314,6 +311,8 @@ public class BardgoBoss extends Boss {
             event.getEntity().getWorld().stopSound(bossSound2);
             event.getEntity().getWorld().playSound(Sound.sound(Key.key("custom.traveler.death"), Sound.Source.HOSTILE, 2, 1));
             event.getEntity().getWorld().stopSound(bossVoice);
+            event.getDrops().clear();
+            event.getDrops().add(Hardcore.instance.customItemManager.getCustomItem("travelersWishes"));
         }
 
     }

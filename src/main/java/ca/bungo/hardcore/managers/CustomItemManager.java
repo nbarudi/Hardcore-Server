@@ -229,6 +229,24 @@ public class CustomItemManager {
                 .addPDC(this.itemKey, "biometric-reader")
                 .addLore("&eRight-Click to take a Reading of Your Self!")
                 .build());
+
+        customItems.put("golemsThoughts", new ItemStackBuilder(Material.POPPY)
+                .setName("<!i>&dA Golems Thoughts")
+                .addLore("<!i>&eYou're getting closer to &k&b000000000000")
+                .addPDC(this.itemKey, "golems-thoughts")
+                .setCustomModelData(1)
+                .addEnchantment(Enchantment.ARROW_INFINITE, -1)
+                .addFlag(ItemFlag.HIDE_ENCHANTS)
+                .build());
+
+        customItems.put("travelersWishes", new ItemStackBuilder(Material.NETHER_STAR)
+                .setName("<!i>&6The Travelers Wishes")
+                .addLore("<!i>&4Forgive me for what I have done...")
+                .addLore("<!i>&9For at some point along the way...")
+                .addLore("<!i>&6I abandoned my oath of knowledge...")
+                .addLore("<!i>&5and began searching for power...")
+                .addPDC(this.itemKey, "travelers-wishes")
+                .build());
     }
 
     public Collection<String> getItemNames() {

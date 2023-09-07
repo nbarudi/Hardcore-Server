@@ -219,6 +219,7 @@ public class StrangeGolemBoss extends Boss {
     @Override
     public void onDeath(EntityDeathEvent event) {
         event.getDrops().clear();
+        event.getDrops().add(Hardcore.instance.customItemManager.getCustomItem("golemsThoughts"));
     }
 
     @EventHandler
