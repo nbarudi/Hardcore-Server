@@ -23,6 +23,9 @@ public class CreditCommand extends Command {
         builder.append("&eTraveler Boss Music:&r \n");
         builder.append("\uD83C\uDFB5 Song: 'Dragon Castle' by Makai Symphony\n");
         builder.append("https://www.youtube.com/channel/UC8cn3OdeqYhyhNUyrMxOQKQ\n");
+        builder.append("\n");
+        builder.append("'Epic Dramatic Action Trailer'\n");
+        builder.append("Music by QubeSounds from Pixabay\n");
 
         builder.append("&0---------------------------\n");
 
