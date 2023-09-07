@@ -6,6 +6,7 @@ import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -246,6 +247,16 @@ public class CustomItemManager {
                 .addLore("<!i>&6I abandoned my oath of knowledge...")
                 .addLore("<!i>&5and began searching for power...")
                 .addPDC(this.itemKey, "travelers-wishes")
+                .build());
+
+        customItems.put("nyanGun", new ItemStackBuilder(Material.DIAMOND_SWORD)
+                .setName("<!i><rainbow>Nyan Pew")
+                .addLore("<!i><rainbow>Nya Nya Nya Nya Nya")
+                .addPDC(this.itemKey, "nyan-gun")
+                .setCustomModelData(1)
+                .addFlag(ItemFlag.HIDE_ATTRIBUTES)
+                .addFlag(ItemFlag.HIDE_UNBREAKABLE)
+                .setUnbreakable(true)
                 .build());
     }
 

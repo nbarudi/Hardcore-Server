@@ -19,7 +19,9 @@ public abstract class ItemModule extends Module implements Listener {
     protected ItemStack castingItem;
     protected String castingKey;
 
-    private boolean debounce = false;
+    protected boolean shouldDebounce = true;
+
+    protected boolean debounce = false;
 
 
     public ItemModule(String moduleName) {
@@ -64,10 +66,12 @@ public abstract class ItemModule extends Module implements Listener {
         if(this.verifyItem(player.getInventory().getItemInMainHand()) || this.verifyItem(player.getInventory().getItemInOffHand()))
             if(this.canRun(player))
                 this.runItemAbility(event);
-        debounce = true;
-        Bukkit.getScheduler().scheduleSyncDelayedTask(Hardcore.instance, () ->{
-            debounce = false;
-        }, 5);
+        if(this.shouldDebounce){
+            debounce = true;
+            Bukkit.getScheduler().scheduleSyncDelayedTask(Hardcore.instance, () ->{
+                debounce = false;
+            }, 5);
+        }
     }
 
     public ItemStack getCastingItem(){

@@ -10,6 +10,7 @@ import ca.bungo.hardcore.modules.event.RespawnEventModule;
 import ca.bungo.hardcore.modules.generic.*;
 import ca.bungo.hardcore.modules.item.armorModifiers.ArmorModifiers;
 import ca.bungo.hardcore.modules.item.utilityItems.BiometricReader;
+import ca.bungo.hardcore.modules.item.weapons.NyanGun;
 import ca.bungo.hardcore.modules.types.classes.CommandModule;
 import ca.bungo.hardcore.modules.types.classes.CustomBlockModule;
 import ca.bungo.hardcore.modules.types.classes.EventModule;
@@ -92,7 +93,9 @@ public class ModuleManager {
         itemModuleMap.put("OreLocator3", new OreLocators.Tier3("OreLocator3"));
         itemModuleMap.put("LightningRod", new LightningRod("LightningRod"));
         itemModuleMap.put("ChargedHeart", new ChargedHeart("ChargedHeart"));
+
         itemModuleMap.put("HandCannon", new HandCannon("HandCannon"));
+        itemModuleMap.put("NyanGun", new NyanGun("NyanGun"));
 
         itemModuleMap.put("BiometricReader", new BiometricReader("BiometricReader"));
 

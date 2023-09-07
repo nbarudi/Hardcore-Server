@@ -123,6 +123,11 @@ public class ItemStackBuilder {
         return this;
     }
 
+    public ItemStackBuilder setUnbreakable(boolean unbreakable){
+        meta.setUnbreakable(unbreakable);
+        return this;
+    }
+
     public ItemStack build(){
         item.setItemMeta(meta);
         return item;
