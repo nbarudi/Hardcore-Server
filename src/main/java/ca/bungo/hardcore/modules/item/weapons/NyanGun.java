@@ -2,6 +2,7 @@ package ca.bungo.hardcore.modules.item.weapons;
 
 import ca.bungo.hardcore.Hardcore;
 import ca.bungo.hardcore.modules.types.classes.ItemModule;
+import ca.bungo.hardcore.modules.types.interfaces.CraftableModule;
 import ca.bungo.hardcore.utility.ItemStackBuilder;
 import com.destroystokyo.paper.ParticleBuilder;
 import net.kyori.adventure.key.Key;
@@ -24,13 +25,14 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
 import java.util.List;
 import java.util.Random;
 
-public class NyanGun extends ItemModule {
+public class NyanGun extends ItemModule implements CraftableModule {
 
 
     private final net.kyori.adventure.sound.Sound sound = net.kyori.adventure.sound.Sound.sound(Key.key("custom.nyangun"),
@@ -103,5 +105,25 @@ public class NyanGun extends ItemModule {
         if(newItem != null && verifyItem(newItem)){
             player.playSound(sound);
         }
+    }
+
+    @Override
+    public Recipe getItemRecipe() {
+        return null;
+    }
+
+    @Override
+    public boolean requiresModuleToCreate() {
+        return true;
+    }
+
+    @Override
+    public String overrideModuleName() {
+        return "AdvancedMagicWeapons";
+    }
+
+    @Override
+    public List<String> getCraftingKeys() {
+        return List.of("crafting-" + this.castingKey);
     }
 }

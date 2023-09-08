@@ -46,6 +46,13 @@ public class CreditCommand extends Command {
 
         builder.append("&0---------------------------\n");
 
+        builder.append("&eWeapon Music: \n");
+        builder.append("Nyan-Cat Song \n");
+        builder.append("Song by Daniwell-P/Momone Momo UTAU\n");
+        builder.append("http://momolabo.lolipop.jp/nyancatsong/Nyan/\n");
+
+        builder.append("&0---------------------------\n");
+
         credit = builder.toString();
     }
 

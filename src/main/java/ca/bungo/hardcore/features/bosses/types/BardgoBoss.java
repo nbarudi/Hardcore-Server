@@ -340,6 +340,9 @@ public class BardgoBoss extends Boss {
                     messageAllInRange("&4You know what... Lets see how well you can adapt to this!", 30);
                     if(!secondStageStarting)
                         self.getWorld().playSound(bossVoice);
+                    Bukkit.getScheduler().runTaskLater(Hardcore.instance, () ->{
+                        messageAllInRange("How about I return some of that damage!", 30);
+                    }, 260);
                     Bukkit.getScheduler().runTaskLater(Hardcore.instance, () -> {
                         damageCause.put(cause, 0.0D);
                         if(secondStage && !secondStageStarting){
@@ -360,7 +363,7 @@ public class BardgoBoss extends Boss {
                                 player.damage(dmg);
                                 damageRecord.remove(cause);
                             }
-                            messageAllInRange("How do you like it!", 30);
+                            messageAllInRange("Your damage has become my power!!", 30);
                         }
                     }, 300);
                 }

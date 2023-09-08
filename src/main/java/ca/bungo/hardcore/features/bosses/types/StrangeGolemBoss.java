@@ -141,7 +141,7 @@ public class StrangeGolemBoss extends Boss {
             }
             messageAllInRange("&4Get out of my way!", 10);
             for(Entity entity : self.getNearbyEntities(10, 10, 10)){
-                entity.setVelocity(entity.getVelocity().add(new Vector(0, 2, 0)).normalize());
+                entity.setVelocity(entity.getVelocity().add(new Vector(0, 2, 0)));
             }
             self.setInvulnerable(false);
             self.setAI(true);
