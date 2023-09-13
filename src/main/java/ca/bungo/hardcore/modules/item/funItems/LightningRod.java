@@ -29,14 +29,14 @@ public class LightningRod extends ItemModule implements CraftableModule {
         this.hasCooldown = true;
         this.hasCost = true;
         this.cost = Hardcore.instance.customItemManager.getCustomItem("fuelItem");
-        this.costAmount = 35;
+        this.costAmount = 15;
         this.costMessage = ("&cYou are missing required items for this cast! Required Items: &e" + this.costAmount + "x ").convertToComponent()
                 .append(cost.displayName().hoverEvent(cost.asHoverEvent()));
     }
 
     @Override
     protected void runItemAbility(PlayerInteractEvent event) {
-        int maxDistance = 10;
+        int maxDistance = 20;
         Player player = event.getPlayer();
         RayTraceResult rayTraceBlock = player.rayTraceBlocks(maxDistance);
         RayTraceResult rayTraceEntity = player.rayTraceEntities(maxDistance);
@@ -69,7 +69,7 @@ public class LightningRod extends ItemModule implements CraftableModule {
             player.getWorld().strikeLightning(eyeLocation);
         }
         player.sendMessage(("&eLightning has been summoned!").convertToComponent());
-        player.getHardcorePlayer().addCooldown(this.getModuleName(), 30, this.castingItem);
+        player.getHardcorePlayer().addCooldown(this.getModuleName(), 5, this.castingItem);
     }
 
     @Override

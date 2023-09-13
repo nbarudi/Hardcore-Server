@@ -111,6 +111,15 @@ public class WorldGenEvents implements Listener {
                 "I knew I could make use of this. By combining this item with some of my remaining Covalent Dust, " +
                 "I was able to link the Eye to myself, instead of some random building! " +
                 "With this my materials are safe! No one, other then me, can access my storage boxes! "
+        ).append(
+                "Chapter 11: Seems that wasn't enough... " +
+                "Here I thought locking my storage boxes would be enough to deter my enemies... " +
+                "That did not seem to be the case.. They still tried to access my home, and began blocking off my items! " +
+                "This CANNOT be allowed! I will put a stop to this! What ever it takes! " +
+                "By combining the lock I had created with some Higher Tier magic powder! I was able to protect my blocks! " +
+                "and this items abilities are very potent. Much more then the lock its self! " +
+                "I put this onto a wooden pole, and a flag to mark my territory! That has done it! " +
+                "My home is now protected in a short range around my flag! I can finally feel safe! "
         );
     }
     private void createBook(){

@@ -7,6 +7,7 @@ import ca.bungo.hardcore.modules.utility.XRayUtility;
 import ca.bungo.hardcore.types.HardcorePlayer;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -43,7 +44,9 @@ public class OreLocators {
             Player player = event.getPlayer();
             HardcorePlayer hardcorePlayer = player.getHardcorePlayer();
             hardcorePlayer.addCooldown(locatorName, 25, this.castingItem);
-            XRayUtility.giveTempXrayToPlayer(player, 200, 2);
+            XRayUtility.giveTempXrayToPlayer(player, 200, 4);
+            player.sendMessage("&eYou can now see the ores within 4 blocks of you!".convertToComponent());
+            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 1f, 1f);
         }
 
         @Override
@@ -98,7 +101,9 @@ public class OreLocators {
             Player player = event.getPlayer();
             HardcorePlayer hardcorePlayer = player.getHardcorePlayer();
             hardcorePlayer.addCooldown(locatorName, 20, this.castingItem);
-            XRayUtility.giveTempXrayToPlayer(player, 200, 3);
+            XRayUtility.giveTempXrayToPlayer(player, 200, 7);
+            player.sendMessage("&eYou can now see the ores within 7 blocks of you!".convertToComponent());
+            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 1f, 1f);
         }
 
         @Override
@@ -153,7 +158,9 @@ public class OreLocators {
             Player player = event.getPlayer();
             HardcorePlayer hardcorePlayer = player.getHardcorePlayer();
             hardcorePlayer.addCooldown(locatorName, 15, this.castingItem);
-            XRayUtility.giveTempXrayToPlayer(player, 200, 4);
+            XRayUtility.giveTempXrayToPlayer(player, 200, 10);
+            player.sendMessage("&eYou can now see the ores within 10 blocks of you!".convertToComponent());
+            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 1f, 1f);
         }
 
         @Override

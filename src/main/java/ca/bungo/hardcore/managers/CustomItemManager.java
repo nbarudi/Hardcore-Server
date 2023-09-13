@@ -99,7 +99,7 @@ public class CustomItemManager {
                 .setName("&#152a8aStrong Ore Locator")
                 .addPDC(this.itemKey, "ore-locate-3")
                 .addLore("&eRight-Click this item to locate near-by ores!")
-                .setCustomModelData(2)
+                .setCustomModelData(3)
                 .addEnchantment(Enchantment.ARROW_INFINITE, 1)
                 .addFlag(ItemFlag.HIDE_ENCHANTS)
                 .build());

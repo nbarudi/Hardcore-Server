@@ -351,10 +351,11 @@ public class FlagClaimBlock extends CustomBlockModule implements CraftableModule
         recipe.shape(
                 "HLW",
                 "HLW",
-                "HL ");
+                "HLO");
         recipe.setIngredient('H', Hardcore.instance.customItemManager.getCustomItem("highCovalDust"));
         recipe.setIngredient('L', new RecipeChoice.MaterialChoice(Tag.LOGS));
         recipe.setIngredient('W', new RecipeChoice.MaterialChoice(Tag.WOOL));
+        recipe.setIngredient('O', Hardcore.instance.customItemManager.getCustomItem("objectLock"));
         return recipe;
     }
 
