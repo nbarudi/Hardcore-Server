@@ -1,4 +1,4 @@
-package ca.bungo.hardcore.modules.item.funItems;
+package ca.bungo.hardcore.modules.item.weapons;
 
 import ca.bungo.hardcore.Hardcore;
 import ca.bungo.hardcore.modules.types.classes.ItemModule;

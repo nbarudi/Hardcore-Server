@@ -6,6 +6,9 @@ import ca.bungo.hardcore.modules.block.custom.*;
 import ca.bungo.hardcore.modules.command.FeedCommandModule;
 import ca.bungo.hardcore.modules.command.FixCommandModule;
 import ca.bungo.hardcore.modules.command.HomeCommandModule;
+import ca.bungo.hardcore.modules.event.DoubleJumpModule;
+import ca.bungo.hardcore.modules.event.KeepExperienceModule;
+import ca.bungo.hardcore.modules.event.KeepInventoryModule;
 import ca.bungo.hardcore.modules.event.RespawnEventModule;
 import ca.bungo.hardcore.modules.generic.*;
 import ca.bungo.hardcore.modules.item.armorModifiers.ArmorModifiers;
@@ -17,7 +20,7 @@ import ca.bungo.hardcore.modules.types.classes.EventModule;
 import ca.bungo.hardcore.modules.types.classes.ItemModule;
 import ca.bungo.hardcore.modules.types.interfaces.BuyableModule;
 import ca.bungo.hardcore.modules.types.interfaces.CraftableModule;
-import ca.bungo.hardcore.modules.item.funItems.LightningRod;
+import ca.bungo.hardcore.modules.item.weapons.LightningRod;
 import ca.bungo.hardcore.modules.item.recipeItems.ChargedHeart;
 import ca.bungo.hardcore.modules.item.recipeItems.CovalenceDusts;
 import ca.bungo.hardcore.modules.item.recipeItems.MysticalFuel;
@@ -140,6 +143,9 @@ public class ModuleManager {
     private void loadEventModules(){
 
         eventModuleMap.put("RespawnEventModule", new RespawnEventModule("RespawnEventModule"));
+        eventModuleMap.put("KeepExperienceModule", new KeepExperienceModule("KeepExperienceModule"));
+        eventModuleMap.put("KeepInventoryModule", new KeepInventoryModule("KeepInventoryModule"));
+        eventModuleMap.put("DoubleJumpModule", new DoubleJumpModule("DoubleJumpModule"));
 
         for(EventModule module : eventModuleMap.values()){
             Bukkit.getServer().getPluginManager().registerEvents(module, Hardcore.instance);
