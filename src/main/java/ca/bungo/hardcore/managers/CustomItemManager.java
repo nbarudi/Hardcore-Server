@@ -258,6 +258,14 @@ public class CustomItemManager {
                 .addFlag(ItemFlag.HIDE_UNBREAKABLE)
                 .setUnbreakable(true)
                 .build());
+
+        customItems.put("grappleHook", new ItemStackBuilder(Material.FISHING_ROD)
+                .setName("<!i>&8Grapple Hook")
+                .addLore("<!i>It's a bird! It's a plane! It's You!")
+                .addPDC(this.itemKey, "grapple-hook")
+                .setUnbreakable(true)
+                .addFlag(ItemFlag.HIDE_UNBREAKABLE)
+                .build());
     }
 
     public Collection<String> getItemNames() {

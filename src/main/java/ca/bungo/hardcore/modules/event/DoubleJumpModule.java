@@ -64,11 +64,11 @@ public class DoubleJumpModule extends EventModule implements BuyableModule {
             return;
         }
         player.setFlying(false);
-        player.setVelocity(player.getVelocity().add(player.getEyeLocation().getDirection()).add(new Vector(0,2,0)));
+        player.setVelocity(player.getVelocity().add(player.getEyeLocation().getDirection()).add(new Vector(0,3,0)));
         player.getWorld().spawnParticle(Particle.FLAME, player.getLocation(), 20);
         player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_SHOOT, 0.5f, 1f);
-        Bukkit.getScheduler().runTaskLater(Hardcore.instance, () -> player.setFlying(false), 5);
-        hardcorePlayer.addCooldown(this.getModuleName(), 4, null);
+        Bukkit.getScheduler().runTaskLater(Hardcore.instance, () -> player.setFlying(false), 10);
+        hardcorePlayer.addCooldown(this.getModuleName(), 2, null);
     }
 
     @EventHandler

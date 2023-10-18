@@ -14,8 +14,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_20_R1.inventory.CraftItemStack;
+import org.bukkit.craftbukkit.v1_20_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_20_R2.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -48,51 +48,52 @@ public class PlayerExtension {
     }
 
     public static void sendFlare(@This Player player, Component title, Component description){
-        ServerPlayer serverPlayer = ((CraftPlayer)player).getHandle();
-
-        ResourceLocation internalKey = new ResourceLocation("hardcore.plugin", "notification");
-
-        AdvancementRewards advRewards = new AdvancementRewards(0, new ResourceLocation[0],
-                new ResourceLocation[0], null);
-
-        Map<String, Criterion> advCriteria = new HashMap<>();
-        String[][] advRequirements;
-
-        advCriteria.put("for_free", new Criterion(new ImpossibleTrigger.TriggerInstance()));
-
-        ArrayList<String[]> fixedRequirements = new ArrayList<>();
-        fixedRequirements.add(new String[] {"for_free"});
-        advRequirements = Arrays.stream(fixedRequirements.toArray()).toArray(String[][]::new);
-
-        DisplayInfo display = new DisplayInfo(
-                CraftItemStack.asNMSCopy(new ItemStack(Material.PAPER)),
-                PaperAdventure.asVanilla(title.appendNewline().append(description)),
-                PaperAdventure.asVanilla(Component.text("Dummy Description")),
-                null,
-                FrameType.CHALLENGE,
-                true,
-                false,
-                true
-        );
-
-        Advancement advancement = new Advancement(internalKey, null, display, advRewards,
-                advCriteria, advRequirements, false);
-
-        Map<ResourceLocation, AdvancementProgress> prg = new HashMap<>();
-        AdvancementProgress progress = new AdvancementProgress();
-        progress.update(advCriteria, advRequirements);
-        progress.getCriterion("for_free").grant();
-        prg.put(internalKey, progress);
-
-        ClientboundUpdateAdvancementsPacket packet = new ClientboundUpdateAdvancementsPacket(false,
-                List.of(advancement), new HashSet<>(), prg);
-        serverPlayer.connection.send(packet);
-
-        HashSet<ResourceLocation> rm = new HashSet<>();
-        rm.add(internalKey);
-        prg.clear();
-        packet = new ClientboundUpdateAdvancementsPacket(false, new ArrayList<>(), rm, prg);
-        serverPlayer.connection.send(packet);
+        //ToDo: MOJANG CHANGE TOO MUCH STUFF... IM DOOMED... Time to do more research!
+//        ServerPlayer serverPlayer = ((CraftPlayer)player).getHandle();
+//
+//        ResourceLocation internalKey = new ResourceLocation("hardcore.plugin", "notification");
+//
+//        AdvancementRewards advRewards = new AdvancementRewards(0, new ResourceLocation[0],
+//                new ResourceLocation[0], null);
+//
+//        Map<String, Criterion> advCriteria = new HashMap<>();
+//        String[][] advRequirements;
+//
+//        advCriteria.put("for_free", new Criterion(new ImpossibleTrigger.TriggerInstance()));
+//
+//        ArrayList<String[]> fixedRequirements = new ArrayList<>();
+//        fixedRequirements.add(new String[] {"for_free"});
+//        advRequirements = Arrays.stream(fixedRequirements.toArray()).toArray(String[][]::new);
+//
+//        DisplayInfo display = new DisplayInfo(
+//                CraftItemStack.asNMSCopy(new ItemStack(Material.PAPER)),
+//                PaperAdventure.asVanilla(title.appendNewline().append(description)),
+//                PaperAdventure.asVanilla(Component.text("Dummy Description")),
+//                null,
+//                FrameType.CHALLENGE,
+//                true,
+//                false,
+//                true
+//        );
+//
+//        Advancement advancement = new Advancement(Optional.of(internalKey), Optional.of(display), advRewards,
+//                advCriteria, advRequirements, false);
+//
+//        Map<ResourceLocation, AdvancementProgress> prg = new HashMap<>();
+//        AdvancementProgress progress = new AdvancementProgress();
+//        progress.update(advCriteria, advRequirements);
+//        progress.getCriterion("for_free").grant();
+//        prg.put(internalKey, progress);
+//
+//        ClientboundUpdateAdvancementsPacket packet = new ClientboundUpdateAdvancementsPacket(false,
+//                List.of(advancement), new HashSet<>(), prg);
+//        serverPlayer.connection.send(packet);
+//
+//        HashSet<ResourceLocation> rm = new HashSet<>();
+//        rm.add(internalKey);
+//        prg.clear();
+//        packet = new ClientboundUpdateAdvancementsPacket(false, new ArrayList<>(), rm, prg);
+//        serverPlayer.connection.send(packet);
     }
 
 }

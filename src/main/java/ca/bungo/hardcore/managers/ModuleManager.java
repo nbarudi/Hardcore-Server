@@ -12,6 +12,7 @@ import ca.bungo.hardcore.modules.event.KeepInventoryModule;
 import ca.bungo.hardcore.modules.event.RespawnEventModule;
 import ca.bungo.hardcore.modules.generic.*;
 import ca.bungo.hardcore.modules.item.armorModifiers.ArmorModifiers;
+import ca.bungo.hardcore.modules.item.funItems.GrappleHook;
 import ca.bungo.hardcore.modules.item.utilityItems.BiometricReader;
 import ca.bungo.hardcore.modules.item.weapons.NyanGun;
 import ca.bungo.hardcore.modules.types.classes.CommandModule;
@@ -99,6 +100,8 @@ public class ModuleManager {
 
         itemModuleMap.put("HandCannon", new HandCannon("HandCannon"));
         itemModuleMap.put("NyanGun", new NyanGun("NyanGun"));
+
+        itemModuleMap.put("GrappleHook", new GrappleHook("GrappleHook"));
 
         itemModuleMap.put("BiometricReader", new BiometricReader("BiometricReader"));
 
