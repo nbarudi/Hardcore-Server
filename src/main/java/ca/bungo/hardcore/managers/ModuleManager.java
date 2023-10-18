@@ -13,6 +13,7 @@ import ca.bungo.hardcore.modules.event.RespawnEventModule;
 import ca.bungo.hardcore.modules.generic.*;
 import ca.bungo.hardcore.modules.item.armorModifiers.ArmorModifiers;
 import ca.bungo.hardcore.modules.item.funItems.GrappleHook;
+import ca.bungo.hardcore.modules.item.utilityItems.BagOfHolding;
 import ca.bungo.hardcore.modules.item.utilityItems.BiometricReader;
 import ca.bungo.hardcore.modules.item.weapons.NyanGun;
 import ca.bungo.hardcore.modules.types.classes.CommandModule;
@@ -102,11 +103,13 @@ public class ModuleManager {
         itemModuleMap.put("NyanGun", new NyanGun("NyanGun"));
 
         itemModuleMap.put("GrappleHook", new GrappleHook("GrappleHook"));
+        itemModuleMap.put("BagOfHolding", new BagOfHolding("BagOfHolding"));
 
         itemModuleMap.put("BiometricReader", new BiometricReader("BiometricReader"));
 
         itemModuleMap.put("ArmorSpeedModifier", new ArmorModifiers.ArmorSpeedModifier("ArmorSpeedModifier"));
         itemModuleMap.put("ArmorKnockbackResistModifier", new ArmorModifiers.ArmorKnockbackResistModifier("ArmorKnockbackResistModifier"));
+
 
         for(ItemModule module : itemModuleMap.values()){
             Bukkit.getPluginManager().registerEvents(module, Hardcore.instance);

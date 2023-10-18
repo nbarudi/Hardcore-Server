@@ -9,10 +9,7 @@ import net.kyori.adventure.key.Key;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.damagesource.DamageTypes;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_20_R2.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.v1_20_R2.entity.CraftPlayer;
@@ -26,6 +23,8 @@ import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
@@ -45,8 +44,8 @@ public class NyanGun extends ItemModule implements CraftableModule {
         this.shouldDebounce = false;
         this.cost = Hardcore.instance.customItemManager.getCustomItem("fuelItem");
         this.costAmount = 1;
-        this.costMessage = "&eCats need energy to fight with you! This one demands at least ".convertToComponent()
-                .append(cost.displayName().hoverEvent(cost.asHoverEvent()));
+        this.costMessage = "&eCats need energy to fight with you! This one demands at least 1".convertToComponent()
+                .append(cost.displayName().hoverEvent(cost.asHoverEvent())).append(" per shot!".convertToComponent());
         this.hasCost = true;
     }
 
@@ -109,7 +108,14 @@ public class NyanGun extends ItemModule implements CraftableModule {
 
     @Override
     public Recipe getItemRecipe() {
-        return null;
+        RecipeChoice.MaterialChoice fish = new RecipeChoice.MaterialChoice(Tag.ITEMS_FISHES);
+        ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(Hardcore.instance, "crafting-" + this.castingKey), this.castingItem);
+        recipe.shape("HFH", "FNB", "HFH");
+        recipe.setIngredient('H', Hardcore.instance.customItemManager.getCustomItem("highCovalDust"));
+        recipe.setIngredient('F', fish);
+        recipe.setIngredient('N', Material.NETHER_STAR);
+        recipe.setIngredient('B', Material.BOW);
+        return recipe;
     }
 
     @Override

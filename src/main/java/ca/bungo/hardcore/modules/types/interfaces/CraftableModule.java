@@ -56,5 +56,4 @@ public interface CraftableModule extends Listener {
                 event.setCancelled(true);
             }
         }
-
 }

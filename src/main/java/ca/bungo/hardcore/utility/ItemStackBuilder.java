@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
@@ -81,6 +82,11 @@ public class ItemStackBuilder {
         return this;
     }
 
+    public ItemStackBuilder addCustomPDC(NamespacedKey namespace, PersistentDataType type, Object value){
+        meta.getPersistentDataContainer().set(namespace, type, value);
+        return this;
+    }
+
     public ItemStackBuilder setCustomModelData(int data){
         meta.setCustomModelData(data);
         return this;
@@ -88,7 +94,7 @@ public class ItemStackBuilder {
 
     public ItemStackBuilder from(ItemStack item){
         this.item = item.clone();
-        this.meta = item.getItemMeta();
+        this.meta = this.item.getItemMeta();
         return this;
     }
 
@@ -131,6 +137,13 @@ public class ItemStackBuilder {
     public ItemStack build(){
         item.setItemMeta(meta);
         return item;
+    }
+
+
+    public static Object getCustomPDC(NamespacedKey key, ItemStack stack, PersistentDataType type){
+        ItemMeta _meta = stack.getItemMeta();
+        PersistentDataContainer container = _meta.getPersistentDataContainer();
+        return container.get(key, type);
     }
 
 }

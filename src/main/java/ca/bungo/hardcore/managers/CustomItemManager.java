@@ -266,6 +266,15 @@ public class CustomItemManager {
                 .setUnbreakable(true)
                 .addFlag(ItemFlag.HIDE_UNBREAKABLE)
                 .build());
+
+        customItems.put("bagOfHolding", new ItemStackBuilder(Material.STICK)
+                .setName("<!i>&eBag of Holding")
+                .addLore("<!i>&aStore your items in here!")
+                .addLore("&4Items stored in this NBT!")
+                .addLore("&4If you lose this you lose your items!")
+                .addPDC(this.itemKey, "bag-of-holding")
+                .setCustomModelData(2)
+                .build());
     }
 
     public Collection<String> getItemNames() {
