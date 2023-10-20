@@ -80,10 +80,11 @@ public class BagOfHolding extends ItemModule implements CraftableModule {
     @Override
     public Recipe getItemRecipe() {
         return new ShapedRecipe(new NamespacedKey(Hardcore.instance, "crafting-" + this.castingKey), this.castingItem)
-                .shape("WLW", "LCL", "WLW")
+                .shape("WSW", "LCL", "WSW")
                 .setIngredient('W', new RecipeChoice.MaterialChoice(Tag.WOOL))
                 .setIngredient('C', Material.CHEST)
-                .setIngredient('L', Hardcore.instance.customItemManager.getCustomItem("lowCovalDust"));
+                .setIngredient('L', Hardcore.instance.customItemManager.getCustomItem("lowCovalDust"))
+                .setIngredient('S', Hardcore.instance.customItemManager.getCustomItem("soulShard"));
     }
 
     @Override

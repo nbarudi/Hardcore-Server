@@ -74,8 +74,9 @@ public abstract class Boss implements Listener {
         Bukkit.registerTickTimer(this);
     }
 
+    boolean debounce = false;
     protected boolean canSpawn(){
-        return self == null;
+        return self == null && !debounce;
     }
 
 
@@ -146,7 +147,9 @@ public abstract class Boss implements Listener {
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event){
         if(event.getEntity().equals(self)){
+            debounce = true;
             self = null;
+            Bukkit.getScheduler().runTaskLater(Hardcore.instance, () -> { debounce = false; }, 10);
             onDeath(event);
 
             Bukkit.broadcast(("&eThe " + this.entityName + " &ehas been slain!").convertToComponent());

@@ -275,6 +275,19 @@ public class CustomItemManager {
                 .addPDC(this.itemKey, "bag-of-holding")
                 .setCustomModelData(2)
                 .build());
+
+        customItems.put("spectralShears", new ItemStackBuilder(Material.SHEARS)
+                .setName("<!i>&bSpectral Shears")
+                .addLore("<!i>&eSnip a soul from a mob!")
+                .addLore("<!i>&cI'm sure they wont mind... Right?")
+                .addPDC(this.itemKey, "spectral-shears")
+                .setCustomModelData(1)
+                .build());
+
+        customItems.put("soulShard", new ItemStackBuilder(Material.GHAST_TEAR)
+                .setName("<!i>&bSoul Shard")
+                .setCustomModelData(1)
+                .build());
     }
 
     public Collection<String> getItemNames() {

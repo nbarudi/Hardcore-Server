@@ -15,6 +15,7 @@ import ca.bungo.hardcore.modules.item.armorModifiers.ArmorModifiers;
 import ca.bungo.hardcore.modules.item.funItems.GrappleHook;
 import ca.bungo.hardcore.modules.item.utilityItems.BagOfHolding;
 import ca.bungo.hardcore.modules.item.utilityItems.BiometricReader;
+import ca.bungo.hardcore.modules.item.utilityItems.SpectralShears;
 import ca.bungo.hardcore.modules.item.weapons.NyanGun;
 import ca.bungo.hardcore.modules.types.classes.CommandModule;
 import ca.bungo.hardcore.modules.types.classes.CustomBlockModule;
@@ -106,6 +107,7 @@ public class ModuleManager {
         itemModuleMap.put("BagOfHolding", new BagOfHolding("BagOfHolding"));
 
         itemModuleMap.put("BiometricReader", new BiometricReader("BiometricReader"));
+        itemModuleMap.put("SpectralShears", new SpectralShears("SpectralShears"));
 
         itemModuleMap.put("ArmorSpeedModifier", new ArmorModifiers.ArmorSpeedModifier("ArmorSpeedModifier"));
         itemModuleMap.put("ArmorKnockbackResistModifier", new ArmorModifiers.ArmorKnockbackResistModifier("ArmorKnockbackResistModifier"));
