@@ -3,6 +3,7 @@ package ca.bungo.hardcore.modules;
 import ca.bungo.hardcore.Hardcore;
 import ca.bungo.hardcore.types.HardcorePlayer;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -23,6 +24,7 @@ public abstract class Module {
     public Module(String moduleName){
         this.moduleName = moduleName;
         this.itemKey = Hardcore.instance.customItemManager.getItemKey();
+        Bukkit.registerTickTimer(this);
     }
 
 

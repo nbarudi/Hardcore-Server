@@ -288,6 +288,22 @@ public class CustomItemManager {
                 .setName("<!i>&bSoul Shard")
                 .setCustomModelData(1)
                 .build());
+
+        customItems.put("lumberAxe", new ItemStackBuilder(Material.DIAMOND_AXE)
+                .setName("<!i>&eLumber Axe")
+                .addLore("<!i>&aCut down a whole tree at once!")
+                .addPDC(this.itemKey, "lumber-axe")
+                .addFlag(ItemFlag.HIDE_UNBREAKABLE)
+                .setUnbreakable(true)
+                .build());
+
+        customItems.put("tunnelBore", new ItemStackBuilder(Material.DIAMOND_PICKAXE)
+                .setName("<!i>&8Tunnel Bore")
+                .addLore("<!i>&aMine in a 3x3x3 area!")
+                .addPDC(this.itemKey, "tunnel-bore")
+                .addFlag(ItemFlag.HIDE_UNBREAKABLE)
+                .setUnbreakable(true)
+                .build());
     }
 
     public Collection<String> getItemNames() {

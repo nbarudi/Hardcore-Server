@@ -11,11 +11,9 @@ import ca.bungo.hardcore.modules.event.KeepExperienceModule;
 import ca.bungo.hardcore.modules.event.KeepInventoryModule;
 import ca.bungo.hardcore.modules.event.RespawnEventModule;
 import ca.bungo.hardcore.modules.generic.*;
-import ca.bungo.hardcore.modules.item.armorModifiers.ArmorModifiers;
+import ca.bungo.hardcore.modules.item.modifiers.ArmorModifiers;
 import ca.bungo.hardcore.modules.item.funItems.GrappleHook;
-import ca.bungo.hardcore.modules.item.utilityItems.BagOfHolding;
-import ca.bungo.hardcore.modules.item.utilityItems.BiometricReader;
-import ca.bungo.hardcore.modules.item.utilityItems.SpectralShears;
+import ca.bungo.hardcore.modules.item.utilityItems.*;
 import ca.bungo.hardcore.modules.item.weapons.NyanGun;
 import ca.bungo.hardcore.modules.types.classes.CommandModule;
 import ca.bungo.hardcore.modules.types.classes.CustomBlockModule;
@@ -27,7 +25,6 @@ import ca.bungo.hardcore.modules.item.weapons.LightningRod;
 import ca.bungo.hardcore.modules.item.recipeItems.ChargedHeart;
 import ca.bungo.hardcore.modules.item.recipeItems.CovalenceDusts;
 import ca.bungo.hardcore.modules.item.recipeItems.MysticalFuel;
-import ca.bungo.hardcore.modules.item.utilityItems.OreLocators;
 import ca.bungo.hardcore.modules.item.weapons.HandCannon;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Recipe;
@@ -108,6 +105,8 @@ public class ModuleManager {
 
         itemModuleMap.put("BiometricReader", new BiometricReader("BiometricReader"));
         itemModuleMap.put("SpectralShears", new SpectralShears("SpectralShears"));
+        itemModuleMap.put("TunnelBore", new TunnelBore("TunnelBore"));
+        itemModuleMap.put("LumberAxe", new LumberAxe("LumberAxe"));
 
         itemModuleMap.put("ArmorSpeedModifier", new ArmorModifiers.ArmorSpeedModifier("ArmorSpeedModifier"));
         itemModuleMap.put("ArmorKnockbackResistModifier", new ArmorModifiers.ArmorKnockbackResistModifier("ArmorKnockbackResistModifier"));

@@ -1,4 +1,4 @@
-package ca.bungo.hardcore.modules.item.armorModifiers;
+package ca.bungo.hardcore.modules.item.modifiers;
 
 import ca.bungo.hardcore.Hardcore;
 import ca.bungo.hardcore.modules.types.classes.ItemModule;
