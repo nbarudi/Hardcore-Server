@@ -108,6 +108,10 @@ public class ModuleManager {
         itemModuleMap.put("TunnelBore", new TunnelBore("TunnelBore"));
         itemModuleMap.put("LumberAxe", new LumberAxe("LumberAxe"));
 
+        itemModuleMap.put("LowTierMagnet", new Magnets.LowTierMagnet("LowTierMagnet"));
+        itemModuleMap.put("MedTierMagnet", new Magnets.MedTierMagnet("MedTierMagnet"));
+        itemModuleMap.put("HighTierMagnet", new Magnets.HighTierMagnet("HighTierMagnet"));
+
         itemModuleMap.put("ArmorSpeedModifier", new ArmorModifiers.ArmorSpeedModifier("ArmorSpeedModifier"));
         itemModuleMap.put("ArmorKnockbackResistModifier", new ArmorModifiers.ArmorKnockbackResistModifier("ArmorKnockbackResistModifier"));
 

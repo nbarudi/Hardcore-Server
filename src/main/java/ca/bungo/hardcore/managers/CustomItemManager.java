@@ -304,6 +304,27 @@ public class CustomItemManager {
                 .addFlag(ItemFlag.HIDE_UNBREAKABLE)
                 .setUnbreakable(true)
                 .build());
+
+        customItems.put("lowTierMagnet", new ItemStackBuilder(Material.STICK)
+                .setName("<!i>&#296e16Simple Item Magnet")
+                .addLore("&eAttract items towards you in a low range!")
+                .addPDC(this.itemKey, "low-tier-magnet")
+                .setCustomModelData(3)
+                .build());
+
+        customItems.put("medTierMagnet", new ItemStackBuilder(Material.STICK)
+                .setName("<!i>&#23917bItem Magnet")
+                .addLore("&eAttract items towards you in a medium range!")
+                .addPDC(this.itemKey, "med-tier-magnet")
+                .setCustomModelData(4)
+                .build());
+        customItems.put("highTierMagnet", new ItemStackBuilder(Material.STICK)
+                .setName("<!i>&#152a8aPowerful Item Magnet")
+                .addLore("&eAttract items towards you in a high range!")
+                .addPDC(this.itemKey, "high-tier-magnet")
+                .addFlag(ItemFlag.HIDE_ENCHANTS)
+                .setCustomModelData(5)
+                .build());
     }
 
     public Collection<String> getItemNames() {
