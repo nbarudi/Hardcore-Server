@@ -1,6 +1,7 @@
 package ca.bungo.hardcore.managers;
 
 import ca.bungo.hardcore.Hardcore;
+import ca.bungo.hardcore.modules.item.utilityItems.Magnets;
 import ca.bungo.hardcore.utility.ItemStackBuilder;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
@@ -10,6 +11,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -309,6 +311,8 @@ public class CustomItemManager {
                 .setName("<!i>&#296e16Simple Item Magnet")
                 .addLore("&eAttract items towards you in a low range!")
                 .addPDC(this.itemKey, "low-tier-magnet")
+                .addPDC(Magnets.avoidStack, "")
+                .addCustomPDC(Magnets.isEnabled, PersistentDataType.BOOLEAN, false)
                 .setCustomModelData(3)
                 .build());
 
@@ -316,12 +320,16 @@ public class CustomItemManager {
                 .setName("<!i>&#23917bItem Magnet")
                 .addLore("&eAttract items towards you in a medium range!")
                 .addPDC(this.itemKey, "med-tier-magnet")
+                .addPDC(Magnets.avoidStack, "")
+                .addCustomPDC(Magnets.isEnabled, PersistentDataType.BOOLEAN, false)
                 .setCustomModelData(4)
                 .build());
         customItems.put("highTierMagnet", new ItemStackBuilder(Material.STICK)
                 .setName("<!i>&#152a8aPowerful Item Magnet")
                 .addLore("&eAttract items towards you in a high range!")
                 .addPDC(this.itemKey, "high-tier-magnet")
+                .addPDC(Magnets.avoidStack, "")
+                .addCustomPDC(Magnets.isEnabled, PersistentDataType.BOOLEAN, false)
                 .addFlag(ItemFlag.HIDE_ENCHANTS)
                 .setCustomModelData(5)
                 .build());

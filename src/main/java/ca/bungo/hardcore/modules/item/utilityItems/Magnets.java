@@ -34,18 +34,15 @@ public class Magnets {
         }
     }
 
-    public static class LowTierMagnet extends ItemModule implements CraftableModule {
+    public static NamespacedKey avoidStack = new NamespacedKey(Hardcore.instance, "no-stacking");;
+    public static NamespacedKey isEnabled = new NamespacedKey(Hardcore.instance, "is-enabled");
 
-        NamespacedKey avoidStack;
-        NamespacedKey isEnabled;
+    public static class LowTierMagnet extends ItemModule implements CraftableModule {
 
         public LowTierMagnet(String moduleName) {
             super(moduleName);
             this.castingItem = Hardcore.instance.customItemManager.getCustomItem("lowTierMagnet");
             this.castingKey = "low-tier-magnet";
-
-            avoidStack = new NamespacedKey(Hardcore.instance, "no-stacking");
-            isEnabled = new NamespacedKey(Hardcore.instance, "is-enabled");
         }
 
         @Override
@@ -84,7 +81,7 @@ public class Magnets {
 
         private boolean isMagnetEnabled(ItemStack magnet){
             if(!verifyItem(magnet)) return false;
-            return (boolean) ItemStackBuilder.getCustomPDC(this.isEnabled, magnet, PersistentDataType.BOOLEAN);
+            return (boolean) ItemStackBuilder.getCustomPDC(isEnabled, magnet, PersistentDataType.BOOLEAN);
         }
 
         private void toggleMagnet(Player player){
@@ -94,12 +91,12 @@ public class Magnets {
 
             boolean enabled = isMagnetEnabled(itemStack);
             if(enabled){
-                builder.addCustomPDC(this.isEnabled, PersistentDataType.BOOLEAN, false);
+                builder.addCustomPDC(isEnabled, PersistentDataType.BOOLEAN, false);
                 builder.removeEnchantment(Enchantment.ARROW_INFINITE);
                 player.sendMessage("&4Disabled &emagnet!".convertToComponent());
                 player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 0.5f);
             }else{
-                builder.addCustomPDC(this.isEnabled, PersistentDataType.BOOLEAN, true);
+                builder.addCustomPDC(isEnabled, PersistentDataType.BOOLEAN, true);
                 builder.addEnchantment(Enchantment.ARROW_INFINITE, -1);
                 player.sendMessage("&aEnabled &emagnet!".convertToComponent());
                 player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 0.5f);
@@ -147,16 +144,10 @@ public class Magnets {
 
     public static class MedTierMagnet extends ItemModule implements CraftableModule {
 
-        NamespacedKey avoidStack;
-        NamespacedKey isEnabled;
-
         public MedTierMagnet(String moduleName) {
             super(moduleName);
             this.castingItem = Hardcore.instance.customItemManager.getCustomItem("medTierMagnet");
             this.castingKey = "med-tier-magnet";
-
-            avoidStack = new NamespacedKey(Hardcore.instance, "no-stacking");
-            isEnabled = new NamespacedKey(Hardcore.instance, "is-enabled");
         }
 
         @Override
@@ -195,7 +186,7 @@ public class Magnets {
 
         private boolean isMagnetEnabled(ItemStack magnet){
             if(!verifyItem(magnet)) return false;
-            return (boolean) ItemStackBuilder.getCustomPDC(this.isEnabled, magnet, PersistentDataType.BOOLEAN);
+            return (boolean) ItemStackBuilder.getCustomPDC(isEnabled, magnet, PersistentDataType.BOOLEAN);
         }
 
         private void toggleMagnet(Player player){
@@ -205,12 +196,12 @@ public class Magnets {
 
             boolean enabled = isMagnetEnabled(itemStack);
             if(enabled){
-                builder.addCustomPDC(this.isEnabled, PersistentDataType.BOOLEAN, false);
+                builder.addCustomPDC(isEnabled, PersistentDataType.BOOLEAN, false);
                 builder.removeEnchantment(Enchantment.ARROW_INFINITE);
                 player.sendMessage("&4Disabled &emagnet!".convertToComponent());
                 player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 0.5f);
             }else{
-                builder.addCustomPDC(this.isEnabled, PersistentDataType.BOOLEAN, true);
+                builder.addCustomPDC(isEnabled, PersistentDataType.BOOLEAN, true);
                 builder.addEnchantment(Enchantment.ARROW_INFINITE, -1);
                 player.sendMessage("&aEnabled &emagnet!".convertToComponent());
                 player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 0.5f);
@@ -236,7 +227,7 @@ public class Magnets {
                     .shape("DHD", "IMI", "DHD")
                     .setIngredient('I', Material.IRON_INGOT)
                     .setIngredient('H', Material.HOPPER)
-                    .setIngredient('M', Hardcore.instance.customItemManager.getCustomItem("soulShard"))
+                    .setIngredient('M', Hardcore.instance.customItemManager.getCustomItem("lowTierMagnet"))
                     .setIngredient('D', Hardcore.instance.customItemManager.getCustomItem("medCovalDust"));
         }
 
@@ -258,16 +249,10 @@ public class Magnets {
 
     public static class HighTierMagnet extends ItemModule implements CraftableModule {
 
-        NamespacedKey avoidStack;
-        NamespacedKey isEnabled;
-
         public HighTierMagnet(String moduleName) {
             super(moduleName);
             this.castingItem = Hardcore.instance.customItemManager.getCustomItem("highTierMagnet");
             this.castingKey = "high-tier-magnet";
-
-            avoidStack = new NamespacedKey(Hardcore.instance, "no-stacking");
-            isEnabled = new NamespacedKey(Hardcore.instance, "is-enabled");
         }
 
         @Override
@@ -305,7 +290,7 @@ public class Magnets {
 
         private boolean isMagnetEnabled(ItemStack magnet){
             if(!verifyItem(magnet)) return false;
-            return (boolean) ItemStackBuilder.getCustomPDC(this.isEnabled, magnet, PersistentDataType.BOOLEAN);
+            return (boolean) ItemStackBuilder.getCustomPDC(isEnabled, magnet, PersistentDataType.BOOLEAN);
         }
 
         private void toggleMagnet(Player player){
@@ -315,12 +300,12 @@ public class Magnets {
 
             boolean enabled = isMagnetEnabled(itemStack);
             if(enabled){
-                builder.addCustomPDC(this.isEnabled, PersistentDataType.BOOLEAN, false);
+                builder.addCustomPDC(isEnabled, PersistentDataType.BOOLEAN, false);
                 builder.removeEnchantment(Enchantment.ARROW_INFINITE);
                 player.sendMessage("&4Disabled &emagnet!".convertToComponent());
                 player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 0.5f);
             }else{
-                builder.addCustomPDC(this.isEnabled, PersistentDataType.BOOLEAN, true);
+                builder.addCustomPDC(isEnabled, PersistentDataType.BOOLEAN, true);
                 builder.addEnchantment(Enchantment.ARROW_INFINITE, -1);
                 player.sendMessage("&aEnabled &emagnet!".convertToComponent());
                 player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1, 0.5f);
@@ -346,10 +331,7 @@ public class Magnets {
                     .shape("DHD", "IMI", "DHD")
                     .setIngredient('I', Material.IRON_INGOT)
                     .setIngredient('H', Material.HOPPER)
-//                    .setIngredient('M', new ItemKeyRecipeChoice(Hardcore.instance.customItemManager.getCustomItem("medTierMagnet"),
-//                            "med-tier-magnet"))
-                    //ToDo: Find a way to use unique identifiers with recipes!
-                    .setIngredient('M', Hardcore.instance.customItemManager.getCustomItem("soulShard"))
+                    .setIngredient('M', Hardcore.instance.customItemManager.getCustomItem("medTierMagnet"))
                     .setIngredient('D', Hardcore.instance.customItemManager.getCustomItem("highCovalDust"));
         }
 
