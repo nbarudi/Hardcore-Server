@@ -333,6 +333,20 @@ public class CustomItemManager {
                 .addFlag(ItemFlag.HIDE_ENCHANTS)
                 .setCustomModelData(5)
                 .build());
+
+        customItems.put("drillMachine", new ItemStackBuilder(Material.PAPER)
+                .setName("<!i>&8Burner Miner")
+                .addLore("<!i>&eMine resources at the cost of magical fuel!")
+                .addPDC(this.itemKey, "drill-machine")
+                .setCustomModelData(8)
+                .build());
+
+        customItems.put("heartCanister", new ItemStackBuilder(Material.STICK)
+                .setName("<!i>&4Heart Canister")
+                .addLore("&eGive yourself an +1 heart")
+                .setCustomModelData(6)
+                .addPDC(this.itemKey, "heart-canister")
+                .build());
     }
 
     public Collection<String> getItemNames() {

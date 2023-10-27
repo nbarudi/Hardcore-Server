@@ -30,6 +30,7 @@ repositories {
 dependencies {
     //compileOnly("io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT")
     implementation("systems.manifold:manifold-ext:2023.1.29")
+    annotationProcessor("systems.manifold:manifold-ext:2023.1.29")
     paperweight.paperDevBundle("1.20.2-R0.1-SNAPSHOT")
 }
 

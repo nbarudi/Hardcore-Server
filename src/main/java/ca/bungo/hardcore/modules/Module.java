@@ -6,6 +6,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -15,6 +16,7 @@ public abstract class Module {
     protected final NamespacedKey itemKey;
     protected boolean hasCooldown = false;
     protected boolean hasCost = false;
+    protected boolean autoTriggerCost = true;
 
     protected ItemStack cost;
     protected int costAmount = 1;
@@ -42,13 +44,19 @@ public abstract class Module {
         return true;
     }
 
+    protected void triggerCost(Player player){
+        PlayerInventory inventory = player.getInventory();
+        ItemStack costItem = cost.clone();
+        costItem.setAmount(this.costAmount);
+        inventory.removeItemAnySlot(costItem);
+    }
+
     protected boolean passesCost(Player player){
         if(!this.hasCost || this.cost == null) return true;
         PlayerInventory inventory = player.getInventory();
         if(inventory.containsAtLeast(cost, costAmount)){
-            ItemStack costItem = cost.clone();
-            costItem.setAmount(this.costAmount);
-            inventory.removeItemAnySlot(costItem);
+            if(autoTriggerCost)
+                triggerCost(player);
             return true;
         }
         if(this.costMessage != null)

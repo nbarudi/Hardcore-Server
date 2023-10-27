@@ -102,6 +102,7 @@ public class ModuleManager {
 
         itemModuleMap.put("GrappleHook", new GrappleHook("GrappleHook"));
         itemModuleMap.put("BagOfHolding", new BagOfHolding("BagOfHolding"));
+        itemModuleMap.put("HeartCanister", new HeartCanister("HeartCanister"));
 
         itemModuleMap.put("BiometricReader", new BiometricReader("BiometricReader"));
         itemModuleMap.put("SpectralShears", new SpectralShears("SpectralShears"));
