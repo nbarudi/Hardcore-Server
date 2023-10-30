@@ -56,8 +56,8 @@ public class OreLocators {
                          "EXE",
                          "CDC");
             recipe.setIngredient('C', Hardcore.instance.customItemManager.getCustomItem("lowCovalDust"));
-            recipe.setIngredient('D', Material.DIAMOND_BLOCK);
-            recipe.setIngredient('E', Material.EMERALD_BLOCK);
+            recipe.setIngredient('D', Material.DIAMOND);
+            recipe.setIngredient('E', Material.EMERALD);
             recipe.setIngredient('X', Material.COMPASS);
             return recipe;
         }
@@ -110,10 +110,10 @@ public class OreLocators {
         public Recipe getItemRecipe() {
             ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(Hardcore.instance, "crafting-" + this.castingKey), this.castingItem);
             recipe.shape("CEC",
-                    "SXS",
-                    "CEC");
+                         "SXS",
+                         "CEC");
             recipe.setIngredient('C', Hardcore.instance.customItemManager.getCustomItem("medCovalDust"));
-            recipe.setIngredient('S', Material.NETHER_STAR);
+            recipe.setIngredient('S', Material.DIAMOND_BLOCK);
             recipe.setIngredient('E', Material.EMERALD_BLOCK);
             recipe.setIngredient('X', Hardcore.instance.customItemManager.getCustomItem("oreLocator1"));
             return recipe;
@@ -166,11 +166,12 @@ public class OreLocators {
         @Override
         public Recipe getItemRecipe() {
             ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(Hardcore.instance, "crafting-" + this.castingKey), this.castingItem);
-            recipe.shape("CSC",
-                    "SXS",
-                    "CSC");
+            recipe.shape("CEC",
+                         "SXS",
+                         "CEC");
             recipe.setIngredient('C', Hardcore.instance.customItemManager.getCustomItem("highCovalDust"));
             recipe.setIngredient('S', Material.NETHER_STAR);
+            recipe.setIngredient('E', Material.EMERALD_BLOCK);
             recipe.setIngredient('X', Hardcore.instance.customItemManager.getCustomItem("oreLocator2"));
             return recipe;
         }

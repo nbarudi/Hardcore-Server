@@ -84,7 +84,7 @@ public class HandCannon extends ItemModule implements CraftableModule {
                 "MMI",
                 "WCI",
                 "MMI");
-        recipe.setIngredient('M', Hardcore.instance.customItemManager.getCustomItem("medCovalDust"));
+        recipe.setIngredient('M', Hardcore.instance.customItemManager.getCustomItem("highCovalDust"));
         recipe.setIngredient('I', Material.IRON_BLOCK);
         recipe.setIngredient('C', Hardcore.instance.customItemManager.getCustomItem("chargedHeart"));
         recipe.setIngredient('W', choice);

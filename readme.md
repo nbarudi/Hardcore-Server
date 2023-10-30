@@ -49,3 +49,10 @@ Playtest Notes (27/10/2023 -> There is a lot to change!):
 	- I dont want these items to become worthless due to cost to value issues
 	- Since if you cant obtain the item until late game and its pointless then no point in making the item!
 Big Issue: Travelers Book causes a LARGE lag spike when generating in ship chest!
+
+
+Need to find a use for the "Golems Thoughts" item obtained from beating the Iron Golem Boss!
+Not sure what item will fit well here yet but I will think of something!
+Most likely going to be used for summoning The Traveler boss!
+
+List of crafting recipes can be found in the code or [here](https://docs.google.com/spreadsheets/d/1qwFE7ZfM6g8fdMIUx_G8GOu71AnT0ktXJ-9qwVSi2ag/edit?usp=sharing)

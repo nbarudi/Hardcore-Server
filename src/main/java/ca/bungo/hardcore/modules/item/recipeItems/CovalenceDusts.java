@@ -24,7 +24,7 @@ public class CovalenceDusts {
         @Override
         public Recipe getItemRecipe() {
             ItemStack resultItem = this.castingItem.clone();
-            resultItem.setAmount(20);
+            resultItem.setAmount(10);
             ShapelessRecipe recipe = new ShapelessRecipe(
                     new NamespacedKey(Hardcore.instance, "crafting-" + this.castingKey),
                     resultItem);
@@ -38,7 +38,6 @@ public class CovalenceDusts {
             recipe.addIngredient(Material.COBBLESTONE);
             recipe.addIngredient(Material.COBBLESTONE);
             recipe.addIngredient(Material.CHARCOAL);
-            recipe.getResult().setAmount(5);
             return recipe;
         }
 
@@ -69,13 +68,12 @@ public class CovalenceDusts {
         @Override
         public Recipe getItemRecipe() {
             ItemStack resultItem = this.castingItem.clone();
-            resultItem.setAmount(20);
+            resultItem.setAmount(5);
             ShapelessRecipe recipe = new ShapelessRecipe(
                     new NamespacedKey(Hardcore.instance, "crafting-" + this.castingKey),
                     resultItem);
             recipe.addIngredient(Material.IRON_INGOT);
             recipe.addIngredient(Material.REDSTONE);
-            recipe.getResult().setAmount(3);
             return recipe;
         }
 
@@ -106,7 +104,7 @@ public class CovalenceDusts {
         @Override
         public Recipe getItemRecipe() {
             ItemStack resultItem = this.castingItem.clone();
-            resultItem.setAmount(1);
+            resultItem.setAmount(3);
             ShapelessRecipe recipe = new ShapelessRecipe(
                     new NamespacedKey(Hardcore.instance, "crafting-" + this.castingKey),
                     resultItem);

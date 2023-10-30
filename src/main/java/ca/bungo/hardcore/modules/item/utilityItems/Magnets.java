@@ -225,9 +225,9 @@ public class Magnets {
         public Recipe getItemRecipe() {
             return new ShapedRecipe(new NamespacedKey(Hardcore.instance, "crafting-" + this.castingKey), this.castingItem)
                     .shape("DHD", "IMI", "DHD")
-                    .setIngredient('I', Material.IRON_INGOT)
+                    .setIngredient('I', Material.GOLD_INGOT)
                     .setIngredient('H', Material.HOPPER)
-                    .setIngredient('M', Hardcore.instance.customItemManager.getCustomItem("lowTierMagnet"))
+                    .setIngredient('M', Hardcore.instance.customItemManager.getCustomItem("soulShard"))
                     .setIngredient('D', Hardcore.instance.customItemManager.getCustomItem("medCovalDust"));
         }
 
@@ -329,9 +329,9 @@ public class Magnets {
         public Recipe getItemRecipe() {
             return new ShapedRecipe(new NamespacedKey(Hardcore.instance, "crafting-" + this.castingKey), this.castingItem)
                     .shape("DHD", "IMI", "DHD")
-                    .setIngredient('I', Material.IRON_INGOT)
+                    .setIngredient('I', Material.DIAMOND)
                     .setIngredient('H', Material.HOPPER)
-                    .setIngredient('M', Hardcore.instance.customItemManager.getCustomItem("medTierMagnet"))
+                    .setIngredient('M', Hardcore.instance.customItemManager.getCustomItem("soulShard"))
                     .setIngredient('D', Hardcore.instance.customItemManager.getCustomItem("highCovalDust"));
         }
 
