@@ -47,7 +47,7 @@ The Homewrecker:
 The Fabricator:
 	- Support item that uses fuel to heal the player it hits!
 	- Heals 0.5 hearts per hit. Will not use fuel if you miss!
-	- In the spesific use of Shaisty. It can instantly kill Fab.
+	- In the spesific use of Vinny. It can instantly kill Fab.
 	- This was their custom item.. so I will make it happen!
 
 Design method Travler Spawns.. Unsure what I will do yet!
