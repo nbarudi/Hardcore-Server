@@ -36,6 +36,19 @@ Story:
 	-> Something along the lines of "The Traveler" moving on to a new dimension?
 	-> Might be possible to retexture blocks based on the dimension it is in?
 	
+	
+The Homewrecker:
+	- Item at the request of Fab:
+	- Cut off  your head! Requires no fuel! Gain your head.. thats all.
+	- Cut off another players head! Costs 32 Mystical Fuel.
+	- Losing their head obviously kills the player
+	- No items will be lost for losing their head!
+	
+The Fabricator:
+	- Support item that uses fuel to heal the player it hits!
+	- Heals 0.5 hearts per hit. Will not use fuel if you miss!
+	- In the spesific use of Shaisty. It can instantly kill Fab.
+	- This was their custom item.. so I will make it happen!
 
 Design method Travler Spawns.. Unsure what I will do yet!
 
