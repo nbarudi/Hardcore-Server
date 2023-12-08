@@ -52,7 +52,7 @@ public class BiometricReader extends ItemModule implements CraftableModule {
         recipe.shape("MSM", "SLS", "MSM");
         recipe.setIngredient('M', Hardcore.instance.customItemManager.getCustomItem("medCovalDust"));
         recipe.setIngredient('S', Material.DEEPSLATE_BRICKS);
-        recipe.setIngredient('L', Material.LIME_CONCRETE);
+        recipe.setIngredient('L', Material.GLASS);
         return recipe;
     }
 

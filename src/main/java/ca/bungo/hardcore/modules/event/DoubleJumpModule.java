@@ -25,10 +25,8 @@ public class DoubleJumpModule extends EventModule implements BuyableModule {
     }
 
     @Override
-    public boolean purchaseModule(Player player) {
-        if(!BuyableModule.super.purchaseModule(player)) return false;
-        player.setAllowFlight(true);
-        return true;
+    public void onPurchase(Player player) {
+        Bukkit.getScheduler().runTaskLater(Hardcore.instance, ()-> player.setAllowFlight(true), 10);
     }
 
     @Override
@@ -63,11 +61,10 @@ public class DoubleJumpModule extends EventModule implements BuyableModule {
             player.sendMessage(hardcorePlayer.getCooldownComponent(this.getModuleName()));
             return;
         }
-        player.setFlying(false);
-        player.setVelocity(player.getVelocity().add(player.getEyeLocation().getDirection()).add(new Vector(0,3,0)));
+        Bukkit.getScheduler().runTaskLater(Hardcore.instance, () -> player.setFlying(false), 1);
+        player.setVelocity(player.getVelocity().add(player.getEyeLocation().getDirection()).add(new Vector(0,1,0)));
         player.getWorld().spawnParticle(Particle.FLAME, player.getLocation(), 20);
         player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_SHOOT, 0.5f, 1f);
-        Bukkit.getScheduler().runTaskLater(Hardcore.instance, () -> player.setFlying(false), 10);
         hardcorePlayer.addCooldown(this.getModuleName(), 2, null);
     }
 

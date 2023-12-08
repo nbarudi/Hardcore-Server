@@ -146,6 +146,7 @@ public class HardcorePlayer implements Listener, ConfigurationSerializable {
             return false;
         this.points -= cost;
         this.addModule(module);
+        ((BuyableModule) module).onPurchase(this.player);
         saveConfig();
         return true;
     }

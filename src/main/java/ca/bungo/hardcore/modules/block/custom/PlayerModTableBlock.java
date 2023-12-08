@@ -121,8 +121,8 @@ public class PlayerModTableBlock extends CustomBlockModule implements CraftableM
                 "GLG",
                 "GGG");
         recipe.setIngredient('R', Material.REDSTONE);
-        recipe.setIngredient('O', Material.OBSERVER);
-        recipe.setIngredient('G', Material.LIME_CONCRETE);
+        recipe.setIngredient('O', Material.FURNACE);
+        recipe.setIngredient('G', Material.STONE);
         recipe.setIngredient('L', Material.LIGHTNING_ROD);
         return recipe;
     }

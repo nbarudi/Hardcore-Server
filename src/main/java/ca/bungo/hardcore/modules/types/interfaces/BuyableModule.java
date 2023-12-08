@@ -19,14 +19,7 @@ public interface BuyableModule {
         return this.getCost() >= playerPoints && hardcorePlayer.hasModule(this.depends());
     }
 
-    default boolean purchaseModule(Player player) {
-        if(!canPurchaseModule(player)) return false;
-
-        HardcorePlayer hardcorePlayer = player.getHardcorePlayer();
-        hardcorePlayer.addModule(Hardcore.instance.moduleManager.getModuleByName(this.getModuleName()));
-        hardcorePlayer.removePoints(this.getCost());
-        return true;
-    }
+    default void onPurchase(Player player) {}
 
     default String friendlyName(){
         return this.getModuleName();
