@@ -4,6 +4,7 @@ import ca.bungo.hardcore.commands.AnnounceCommand;
 import ca.bungo.hardcore.commands.CreditCommand;
 import ca.bungo.hardcore.commands.InfoCommand;
 import ca.bungo.hardcore.commands.TestingCommand;
+import ca.bungo.hardcore.events.PlayerConditionEvents;
 import ca.bungo.hardcore.events.PlayerConnectionEvents;
 import ca.bungo.hardcore.events.PlayerLevelEvents;
 import ca.bungo.hardcore.events.TickerHandlerEvents;
@@ -87,6 +88,7 @@ public final class Hardcore extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new XRayUtility(), this);
         this.getServer().getPluginManager().registerEvents(teleportUtility, this);
         this.getServer().getPluginManager().registerEvents(new TickerHandlerEvents(), this);
+        this.getServer().getPluginManager().registerEvents(new PlayerConditionEvents(), this);
     }
 
     private void registerPlayers(){

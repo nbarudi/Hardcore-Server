@@ -4,6 +4,7 @@ import ca.bungo.hardcore.modules.types.classes.EventModule;
 import ca.bungo.hardcore.modules.types.interfaces.BuyableModule;
 import ca.bungo.hardcore.types.HardcorePlayer;
 import org.bukkit.EntityEffect;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -38,7 +39,7 @@ public class RespawnEventModule extends EventModule implements BuyableModule {
 
         if(this.canRun(player)){
             event.setCancelled(true);
-            player.setHealth(20);
+            player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
             player.playEffect(EntityEffect.TOTEM_RESURRECT);
             player.sendMessage(("&aYou have cheated death because of your skills!").convertToComponent());
             hardcorePlayer.addCooldown(this.getModuleName(), 120, null);
