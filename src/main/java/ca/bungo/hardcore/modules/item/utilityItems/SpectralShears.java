@@ -71,8 +71,7 @@ public class SpectralShears extends ItemModule implements CraftableModule {
     @Override
     public Recipe getItemRecipe() {
         return new ShapedRecipe(new NamespacedKey(Hardcore.instance, "crafting-" + this.castingKey), this.castingItem)
-                .shape("SLS", "ASA", "LBL")
-                .setIngredient('P', Material.PRISMARINE_SHARD)
+                .shape("BLB", "ASA", "LBL")
                 .setIngredient('L', Hardcore.instance.customItemManager.getCustomItem("lowCovalDust"))
                 .setIngredient('A', Material.LAPIS_LAZULI)
                 .setIngredient('B', Material.SNOWBALL)
