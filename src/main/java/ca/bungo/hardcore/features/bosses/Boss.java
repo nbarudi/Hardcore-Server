@@ -3,6 +3,10 @@ package ca.bungo.hardcore.features.bosses;
 
 import ca.bungo.hardcore.Hardcore;
 import com.destroystokyo.paper.event.server.ServerTickEndEvent;
+import com.ticxo.modelengine.api.ModelEngineAPI;
+import com.ticxo.modelengine.api.animation.handler.AnimationHandler;
+import com.ticxo.modelengine.api.model.ActiveModel;
+import com.ticxo.modelengine.api.model.ModeledEntity;
 import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -64,6 +68,9 @@ public abstract class Boss implements Listener {
 
     protected LivingEntity self;
 
+    protected ModeledEntity modeledEntity = null;
+    protected ActiveModel activeModel = null;
+
     public Boss(String name) {
         this.name = name;
 
@@ -79,6 +86,22 @@ public abstract class Boss implements Listener {
         return self == null && !debounce;
     }
 
+    protected void applyModel(String model){
+        if(self == null) return;
+        ModeledEntity _modeled = ModelEngineAPI.createModeledEntity(self);
+        ActiveModel _active = ModelEngineAPI.createActiveModel(model);
+        if(_active == null) return;
+
+        _modeled.addModel(_active, true);
+        modeledEntity = _modeled;
+        modeledEntity.setBaseEntityVisible(false);
+        activeModel = _active;
+    }
+
+    protected void playAnimation(String animName){
+        AnimationHandler animationHandler = activeModel.getAnimationHandler();
+        animationHandler.playAnimation(animName, 0.3, 0.3, 1, true);
+    }
 
     public boolean spawnSelf(EntityType type, Location location){
         if(!this.canSpawn()) return false;

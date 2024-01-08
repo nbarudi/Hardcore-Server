@@ -24,6 +24,8 @@ repositories {
     maven {
         url = uri("https://repo.maven.apache.org/maven2/")
     }
+
+    maven(url = "https://mvn.lumine.io/repository/maven-public/")
 }
 
 
@@ -32,6 +34,7 @@ dependencies {
     implementation("systems.manifold:manifold-ext:2023.1.31")
     annotationProcessor("systems.manifold:manifold-ext:2023.1.31")
     paperweight.paperDevBundle("1.20.2-R0.1-SNAPSHOT")
+    compileOnly("com.ticxo.modelengine:ModelEngine:R4.0.4")
 }
 
 group = "ca.bungo"

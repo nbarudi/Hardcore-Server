@@ -178,7 +178,7 @@ public class SuperClockBlock extends CustomBlockModule implements CraftableModul
 
     @Override
     public Recipe getItemRecipe() {
-        ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(Hardcore.instance, "crafting-" + this.getModuleName()), this.blockItem);
+        ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(Hardcore.instance, "crafting-" + this.blockKey), this.blockItem);
         recipe.shape(
                 "HNH",
                 "CEC",
@@ -192,6 +192,6 @@ public class SuperClockBlock extends CustomBlockModule implements CraftableModul
 
     @Override
     public List<String> getCraftingKeys() {
-        return List.of("crafting-" + this.getModuleName());
+        return List.of("crafting-" + this.blockKey);
     }
 }

@@ -152,7 +152,7 @@ public class HarvesterBlock extends CustomBlockModule implements CraftableModule
 
     @Override
     public Recipe getItemRecipe() {
-        ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(Hardcore.instance, "crafting-" + this.getModuleName()), this.blockItem);
+        ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(Hardcore.instance, "crafting-" + this.blockKey), this.blockItem);
         recipe.shape("MHM",
                      "BNB",
                      "MHM");
@@ -165,6 +165,6 @@ public class HarvesterBlock extends CustomBlockModule implements CraftableModule
 
     @Override
     public List<String> getCraftingKeys() {
-        return List.of("crafting-" + this.getModuleName());
+        return List.of("crafting-" + this.blockKey);
     }
 }

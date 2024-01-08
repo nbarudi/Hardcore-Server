@@ -5,6 +5,7 @@ import ca.bungo.hardcore.features.bosses.Boss;
 import ca.bungo.hardcore.types.timings.TickTimer;
 import ca.bungo.hardcore.utility.MathUtility;
 import net.kyori.adventure.bossbar.BossBar;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -42,6 +43,7 @@ public class SuperCreeperBoss extends Boss {
     private boolean finishedSpawning = false;
     private int spawnTask = 0;
     private void timer10T(){
+        ((Creeper)self).setPowered(false);
         if(finishedSpawning) {
             Bukkit.getScheduler().cancelTask(spawnTask);
             self.setInvulnerable(false);
@@ -49,7 +51,9 @@ public class SuperCreeperBoss extends Boss {
             self.setHealth(self.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
             bossBar.color(BossBar.Color.YELLOW);
             self.setFireTicks(0);
+            ((Creeper)self).setPowered(false);
             finishedSpawning = false;
+            applyModel("creeper-boss-model");
         }
         if(((Creeper) self).getFuseTicks() > 50){
             self.getWorld().createExplosion(self.getLocation(), 5f, false, false);
@@ -63,6 +67,8 @@ public class SuperCreeperBoss extends Boss {
         if (!super.spawnSelf(EntityType.CREEPER, location)) return false;
         finishedSpawning = false;
         Creeper selfCreeper = (Creeper) self;
+        self.setCustomNameVisible(false);
+        self.customName(null);
         selfCreeper.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(500);
 
         selfCreeper.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, PotionEffect.INFINITE_DURATION, 1));
@@ -103,6 +109,8 @@ public class SuperCreeperBoss extends Boss {
         //Smite Attack
         List<Entity> nearBy = self.getNearbyEntities(5, 5, 5);
         if(!nearBy.isEmpty()){
+            if(modeledEntity != null)
+                playAnimation("smite-attack");
             this.messageAllInRange("Feel my Lightning!", 20);
             for(Entity ent : nearBy){
                 if(ent == self) continue;
@@ -153,12 +161,16 @@ public class SuperCreeperBoss extends Boss {
                 minion.getPersistentDataContainer().set(this.localKey, PersistentDataType.STRING, "minion");
                 Bukkit.getScheduler().scheduleSyncDelayedTask(Hardcore.instance, () -> minion.setInvulnerable(false), 20);
             }
+            if(modeledEntity != null)
+                playAnimation("summon-attack");
             this.messageAllInRange("&eGo my Minions! Show them our strength!", 30);
         }
         else if(chance <= 60){
             List<Entity> near = self.getNearbyEntities(10, 10, 10);
             if(!near.isEmpty()){
                 this.messageAllInRange("&eEat my Explosives!", 30);
+                if(modeledEntity != null)
+                    playAnimation("summon-attack");
                 for(Entity ent : near){
                     if(ent instanceof Player){
                         Vector velocity = MathUtility.calculateArc(self.getLocation().add(0, 2, 0), ent.getLocation(), 2);

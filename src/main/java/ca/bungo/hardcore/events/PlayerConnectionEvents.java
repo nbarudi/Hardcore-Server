@@ -25,8 +25,16 @@ public class PlayerConnectionEvents implements Listener {
 
         for(String moduleName : Hardcore.instance.moduleManager.getModuleNames()){
             Module module = Hardcore.instance.moduleManager.getModuleByName(moduleName);
-            if(module instanceof ItemModule itemModule && itemModule instanceof CraftableModule){
-                for(String key : ((CraftableModule) itemModule).getCraftingKeys()){
+            if(module instanceof CraftableModule craftableModule){
+                if(craftableModule.getCraftingKeys() == null) {
+                    Hardcore.LOGGER.info(craftableModule.getModuleName() + " is craftable but has no recipe!");
+                    continue;
+                }
+                for(String key : craftableModule.getCraftingKeys()){
+                    if(key == null || NamespacedKey.fromString(key, Hardcore.instance) == null){
+                        Hardcore.LOGGER.info(craftableModule.getModuleName() + " has a broken Key! How?");
+                        continue;
+                    }
                     player.discoverRecipe(Objects.requireNonNull(NamespacedKey.fromString(key, Hardcore.instance)));
                 }
             }
