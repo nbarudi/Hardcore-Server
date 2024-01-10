@@ -21,16 +21,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SuperClockBlock extends CustomBlockModule implements CraftableModule {
 
-    private final List<Interaction> enabledWatches;
+    private final List<String> enabledWatches;
 
-    private final Map<Interaction, Inventory> internalInventory;
+    private final Map<String, Inventory> internalInventory;
 
 
     public SuperClockBlock(String moduleName) {
@@ -45,7 +42,7 @@ public class SuperClockBlock extends CustomBlockModule implements CraftableModul
     @Override
     protected void onPlace(Interaction interaction, ItemDisplay display) {
         super.onPlace(interaction, display);
-        internalInventory.put(interaction, Bukkit.createInventory(null, 9, Component.text("Fuel", NamedTextColor.DARK_RED)));
+        internalInventory.put(interaction.getUniqueId().toString(), Bukkit.createInventory(null, 9, Component.text("Fuel", NamedTextColor.DARK_RED)));
     }
 
     @Override
@@ -61,29 +58,29 @@ public class SuperClockBlock extends CustomBlockModule implements CraftableModul
     @Override
     protected Map<String, Object> saveCustomData(Interaction interaction) {
         Map<String, Object> customData = new HashMap<>();
-        customData.put("toggled", this.enabledWatches.contains(interaction));
-        customData.put("inventory-contents", InventoryUtility.convertInventory(internalInventory.get(interaction)));
+        customData.put("toggled", this.enabledWatches.contains(interaction.getUniqueId().toString()));
+        customData.put("inventory-contents", InventoryUtility.convertInventory(internalInventory.get(interaction.getUniqueId().toString())));
         return customData;
     }
 
     @Override
     protected void loadCustomData(ConfigurationSection section, Interaction interaction) {
         if(section.getBoolean("toggled"))
-            enabledWatches.add(interaction);
+            enabledWatches.add(interaction.getUniqueId().toString());
         String iB64 = section.getString("inventory-contents");
-        this.internalInventory.get(interaction).setContents(InventoryUtility.getSavedInventory(iB64));
+        this.internalInventory.get(interaction.getUniqueId().toString()).setContents(InventoryUtility.getSavedInventory(iB64));
     }
 
     private void toggleTime(Player player){
-        Interaction interaction = this.playerClicks.get(player.getUniqueId().toString());
+        Interaction interaction = (Interaction) player.getWorld().getEntity(UUID.fromString(this.playerClicks.get(player.getUniqueId().toString())));
         if(interaction == null) return;
-        if(!this.internalInventory.get(interaction).containsAtLeast(Hardcore.instance.customItemManager.getCustomItem("fuelItem"), 1)){
+        if(!this.internalInventory.get(interaction.getUniqueId().toString()).containsAtLeast(Hardcore.instance.customItemManager.getCustomItem("fuelItem"), 1)){
             interaction.getWorld().playSound(interaction.getLocation(), Sound.BLOCK_NOTE_BLOCK_BASS, 1, 0.5f);
             player.sendMessage(Component.text("No Fuel!", NamedTextColor.DARK_RED));
             return;
         }
-        if(enabledWatches.contains(interaction)){
-            enabledWatches.remove(interaction);
+        if(enabledWatches.contains(interaction.getUniqueId().toString())){
+            enabledWatches.remove(interaction.getUniqueId().toString());
             ParticleBuilder builder = new ParticleBuilder(Particle.REDSTONE);
             builder.color(Color.BLACK);
             builder.location(interaction.getLocation().add(0,1.5,0));
@@ -93,7 +90,7 @@ public class SuperClockBlock extends CustomBlockModule implements CraftableModul
             builder.spawn();
             interaction.getWorld().playSound(interaction.getLocation(), Sound.BLOCK_NOTE_BLOCK_COW_BELL, 1, 0.5f);
         }else{
-            enabledWatches.add(interaction);
+            enabledWatches.add(interaction.getUniqueId().toString());
             ParticleBuilder builder = new ParticleBuilder(Particle.REDSTONE);
             builder.color(Color.LIME);
             builder.location(interaction.getLocation().add(0,1.5,0));
@@ -133,7 +130,7 @@ public class SuperClockBlock extends CustomBlockModule implements CraftableModul
     }
 
     private void tickUseFuel(Interaction interaction){
-        Inventory internal = this.internalInventory.get(interaction);
+        Inventory internal = this.internalInventory.get(interaction.getUniqueId().toString());
         ItemStack itemStack = Hardcore.instance.customItemManager.getCustomItem("fuelItem");
         if(!internal.containsAtLeast(itemStack, 1)){
             ParticleBuilder builder = new ParticleBuilder(Particle.REDSTONE);
@@ -144,7 +141,7 @@ public class SuperClockBlock extends CustomBlockModule implements CraftableModul
             builder.count(25);
             builder.spawn();
             interaction.getWorld().playSound(interaction.getLocation(), Sound.BLOCK_NOTE_BLOCK_COW_BELL, 1, 0.5f);
-            enabledWatches.remove(interaction);
+            enabledWatches.remove(interaction.getUniqueId().toString());
         }
         else {
             internal.removeItemAnySlot(itemStack);
@@ -153,9 +150,9 @@ public class SuperClockBlock extends CustomBlockModule implements CraftableModul
 
     @Override
     protected void broken(Interaction interaction, ItemDisplay display) {
-        if(this.enabledWatches.contains(interaction))
-            enabledWatches.remove(interaction);
-        Inventory inventory = internalInventory.remove(interaction);
+        if(this.enabledWatches.contains(interaction.getUniqueId().toString()))
+            enabledWatches.remove(interaction.getUniqueId().toString());
+        Inventory inventory = internalInventory.remove(interaction.getUniqueId().toString());
         ItemStack[] contents = inventory.getContents();
         for(ItemStack item : contents){
             if(item == null) continue;
@@ -165,13 +162,24 @@ public class SuperClockBlock extends CustomBlockModule implements CraftableModul
 
     private void tickTimer(){
         Bukkit.getScheduler().scheduleSyncRepeatingTask(Hardcore.instance, ()->{
-            for(Interaction interaction : enabledWatches){
-                tickNearBlocks(interaction);
+            for(String interaction : enabledWatches){
+                for(World world : Bukkit.getWorlds()){
+                    if(world.getEntity(UUID.fromString(interaction)) == null) continue;
+                    tickNearBlocks((Interaction) world.getEntity(UUID.fromString(interaction)));
+                    break;
+                }
             }
         }, 2, 2);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(Hardcore.instance, ()->{
-            for(Interaction interaction : enabledWatches){
-                Bukkit.getScheduler().runTaskLater(Hardcore.instance, () -> tickUseFuel(interaction), 0);
+
+            for(String interaction : enabledWatches){
+                for(World world : Bukkit.getWorlds()){
+                    if(world.getEntity(UUID.fromString(interaction)) == null) continue;
+                    Bukkit.getScheduler().runTaskLater(Hardcore.instance, () ->
+                            tickUseFuel((Interaction) world.getEntity(UUID.fromString(interaction))), 0);
+                    break;
+                }
+
             }
         }, 20, 20);
     }

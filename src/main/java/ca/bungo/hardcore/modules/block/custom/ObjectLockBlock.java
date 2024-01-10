@@ -41,8 +41,8 @@ import java.util.*;
 
 public class ObjectLockBlock extends CustomBlockModule implements CraftableModule {
 
-    private final Map<Interaction, Location> placedOn;
-    private final Map<Interaction, String> ownedBy;
+    private final Map<String, Location> placedOn;
+    private final Map<String, String> ownedBy;
 
     private final String lockPickKey;
     private final ItemStack lockPick;
@@ -78,8 +78,8 @@ public class ObjectLockBlock extends CustomBlockModule implements CraftableModul
     @Override
     protected Map<String, Object> saveCustomData(Interaction interaction) {
         Map<String, Object> customData = new HashMap<>();
-        customData.put("placed-on", placedOn.get(interaction));
-        customData.put("owned-by", ownedBy.get(interaction));
+        customData.put("placed-on", placedOn.get(interaction.getUniqueId().toString()));
+        customData.put("owned-by", ownedBy.get(interaction.getUniqueId().toString()));
         return customData;
     }
 
@@ -88,8 +88,8 @@ public class ObjectLockBlock extends CustomBlockModule implements CraftableModul
         Location placedOn = section.getLocation("placed-on");
         String owner = section.getString("owned-by");
 
-        this.ownedBy.put(interaction, owner);
-        this.placedOn.put(interaction, placedOn);
+        this.ownedBy.put(interaction.getUniqueId().toString(), owner);
+        this.placedOn.put(interaction.getUniqueId().toString(), placedOn);
     }
 
     @Override
@@ -157,26 +157,29 @@ public class ObjectLockBlock extends CustomBlockModule implements CraftableModul
             }
 
             if(existingLock == null){
-                placedOn.put(interaction, containerBlock.getLocation());
+                placedOn.put(interaction.getUniqueId().toString(), containerBlock.getLocation());
             }
 
         }
 
-        if(!placedOn.containsKey(interaction)){
-            this.breakBlock(null, this.displays.get(interaction), interaction);
+        if(!placedOn.containsKey(interaction.getUniqueId().toString())){
+            this.breakBlock(null,
+                    (ItemDisplay) interaction.getWorld()
+                            .getEntity(UUID.fromString(this.displays.get(interaction.getUniqueId().toString()))),
+                    interaction);
         }
     }
 
     @Override
     protected void placedBy(Interaction interaction, Player whoPlaced) {
         if(whoPlaced == null) return;
-        this.ownedBy.put(interaction, whoPlaced.getUniqueId().toString());
+        this.ownedBy.put(interaction.getUniqueId().toString(), whoPlaced.getUniqueId().toString());
     }
 
     @Override
     protected void breakBlock(Player whoBroke, ItemDisplay display, Entity interaction) {
         Interaction inter = (Interaction) interaction;
-        String ownerUUID = this.ownedBy.get(inter);
+        String ownerUUID = this.ownedBy.get(inter.getUniqueId().toString());
 
         if(whoBroke == null){
             if(ownerUUID != null){
@@ -189,8 +192,8 @@ public class ObjectLockBlock extends CustomBlockModule implements CraftableModul
 
         if(whoBroke == null || ownerUUID == null || ownerUUID.equals(whoBroke.getUniqueId().toString())){
             super.breakBlock(whoBroke, display, interaction);
-            placedOn.remove(inter);
-            ownedBy.remove(interaction);
+            placedOn.remove(inter.getUniqueId().toString());
+            ownedBy.remove(interaction.getUniqueId().toString());
         }else{
             whoBroke.sendMessage("&cYou do not own this Lock!".convertToComponent());
             whoBroke.getWorld().playSound(lockedSound, inter);
@@ -212,14 +215,15 @@ public class ObjectLockBlock extends CustomBlockModule implements CraftableModul
     @Override
     protected void interactWithBlock(PlayerInteractEntityEvent event) {
         Player player = event.getPlayer();
-        Interaction interaction = this.playerClicks.get(player.getUniqueId().toString());
-        Location blockLocation = this.placedOn.get(interaction);
+        Interaction interaction = (Interaction) player.getWorld().getEntity(UUID.fromString(this.playerClicks.get(player.getUniqueId().toString())));
+        Location blockLocation = this.placedOn.get(interaction.getUniqueId().toString());
         if(blockLocation == null || blockLocation.getBlock().getType().equals(Material.AIR))
-            this.breakBlock(player, this.displays.get(interaction), interaction);
+            this.breakBlock(player, (ItemDisplay) interaction.getWorld()
+                            .getEntity(UUID.fromString(this.displays.get(interaction.getUniqueId().toString()))), interaction);
         else {
             Block block = blockLocation.getBlock();
             BlockInventoryHolder blockInventoryHolder = (BlockInventoryHolder)block.getState();
-            if(this.ownedBy.get(interaction).equals(player.getUniqueId().toString())){
+            if(this.ownedBy.get(interaction.getUniqueId().toString()).equals(player.getUniqueId().toString())){
                 player.openInventory(blockInventoryHolder.getInventory());
             }else{
                 if(isLockPick(player.getInventory().getItemInMainHand())){
@@ -260,7 +264,7 @@ public class ObjectLockBlock extends CustomBlockModule implements CraftableModul
 
             if(lock == null) return;
 
-            String owner = this.ownedBy.get(lock);
+            String owner = this.ownedBy.get(lock.getUniqueId().toString());
             if(owner == null) return;
             if(!owner.equals(event.getPlayer().getUniqueId().toString())){
                 event.setCancelled(true);
@@ -286,7 +290,7 @@ public class ObjectLockBlock extends CustomBlockModule implements CraftableModul
         if(interaction == null) return;
 
         Player player = event.getPlayer();
-        String ownerUUID = ownedBy.get(interaction);
+        String ownerUUID = ownedBy.get(interaction.getUniqueId().toString());
         if(!player.getUniqueId().toString().equals(ownerUUID)){
             event.setCancelled(true);
             player.sendMessage("&cYou cannot break a locked box!".convertToComponent());
@@ -294,9 +298,9 @@ public class ObjectLockBlock extends CustomBlockModule implements CraftableModul
     }
 
     private Interaction getInteractionFromBlock(Block block){
-        for(Interaction interaction : this.placedOn.keySet()){
-            if(this.placedOn.get(interaction).equals(block.getLocation())){
-                return interaction;
+        for(String interactionUUID : this.placedOn.keySet()){
+            if(this.placedOn.get(interactionUUID).equals(block.getLocation())){
+                return (Interaction) block.getWorld().getEntity(UUID.fromString(interactionUUID));
             }
         }
         return null;

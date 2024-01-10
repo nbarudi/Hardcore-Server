@@ -27,6 +27,8 @@ import ca.bungo.hardcore.modules.item.recipeItems.CovalenceDusts;
 import ca.bungo.hardcore.modules.item.recipeItems.MysticalFuel;
 import ca.bungo.hardcore.modules.item.weapons.HandCannon;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
+import org.bukkit.entity.Interaction;
 import org.bukkit.inventory.Recipe;
 
 import java.util.*;
@@ -181,6 +183,18 @@ public class ModuleManager {
         }
     }
 
+    public void unloadBlocksInChunk(Chunk chunk){
+        for(CustomBlockModule module : blockModuleMap.values()){
+            module.unloadInChunk(chunk);
+        }
+    }
+
+    public void loadBlocksInChunk(Chunk chunk){
+        for(CustomBlockModule module : blockModuleMap.values()){
+            module.loadInChunk(chunk);
+        }
+    }
+
     public Set<String> getModuleNames(){
         return this.moduleMap.keySet();
     }
@@ -191,6 +205,15 @@ public class ModuleManager {
                 buyableModules.add(module);
         }
         return buyableModules;
+    }
+
+    public void fixBlock(String uuid, String type, Interaction interaction){
+        for(CustomBlockModule module : blockModuleMap.values()){
+            if(!module.getModuleName().equalsIgnoreCase(type)) continue;
+
+
+
+        }
     }
 
 }

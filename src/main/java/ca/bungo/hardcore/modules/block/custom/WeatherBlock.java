@@ -17,6 +17,7 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 
 import java.util.List;
+import java.util.UUID;
 
 public class WeatherBlock extends CustomBlockModule implements CraftableModule {
 
@@ -122,7 +123,7 @@ public class WeatherBlock extends CustomBlockModule implements CraftableModule {
     }
 
     private void changeWeather(String type, Player player){
-        Interaction interaction = this.playerClicks.get(player.getUniqueId().toString());
+        Interaction interaction = (Interaction) player.getWorld().getEntity(UUID.fromString(this.playerClicks.get(player.getUniqueId().toString())));
         if(interaction == null) return;
 
         Location start = interaction.getLocation();

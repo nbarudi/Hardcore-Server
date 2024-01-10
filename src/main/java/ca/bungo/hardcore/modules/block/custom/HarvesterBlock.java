@@ -27,8 +27,8 @@ import java.util.*;
 
 public class HarvesterBlock extends CustomBlockModule implements CraftableModule {
 
-    private final List<Interaction> enabledHarvesters;
-    private final HashMap<Interaction, Inventory> internalInventory;
+    private final List<String> enabledHarvesters;
+    private final HashMap<String, Inventory> internalInventory;
     public HarvesterBlock(String moduleName) {
         super(moduleName, Hardcore.instance.customItemManager.getCustomItem("harvester"));
         this.enabledHarvesters = new ArrayList<>();
@@ -40,7 +40,7 @@ public class HarvesterBlock extends CustomBlockModule implements CraftableModule
     @Override
     protected void onPlace(Interaction interaction, ItemDisplay display) {
         super.onPlace(interaction, display);
-        internalInventory.put(interaction, Bukkit.createInventory(null, 36, Component.text("Harvester", NamedTextColor.YELLOW)));
+        internalInventory.put(interaction.getUniqueId().toString(), Bukkit.createInventory(null, 36, Component.text("Harvester", NamedTextColor.YELLOW)));
     }
 
     @Override
@@ -55,25 +55,25 @@ public class HarvesterBlock extends CustomBlockModule implements CraftableModule
     @Override
     protected Map<String, Object> saveCustomData(Interaction interaction) {
         Map<String, Object> customData = new HashMap<>();
-        customData.put("toggled", this.enabledHarvesters.contains(interaction));
-        customData.put("inventory-contents", InventoryUtility.convertInventory(this.internalInventory.get(interaction)));
+        customData.put("toggled", this.enabledHarvesters.contains(interaction.getUniqueId().toString()));
+        customData.put("inventory-contents", InventoryUtility.convertInventory(this.internalInventory.get(interaction.getUniqueId().toString())));
         return customData;
     }
 
     @Override
     protected void loadCustomData(ConfigurationSection section, Interaction interaction) {
         if(section.getBoolean("toggled"))
-            enabledHarvesters.add(interaction);
+            enabledHarvesters.add(interaction.getUniqueId().toString());
         String iB64 = section.getString("inventory-contents");
         ItemStack[] contents = InventoryUtility.getSavedInventory(iB64);
-        this.internalInventory.get(interaction).setContents(contents);
+        this.internalInventory.get(interaction.getUniqueId().toString()).setContents(contents);
     }
 
     private void toggleHarvester(Player player){
-        Interaction interaction = this.playerClicks.get(player.getUniqueId().toString());
+        Interaction interaction = (Interaction) player.getWorld().getEntity(UUID.fromString(this.playerClicks.get(player.getUniqueId().toString())));
         if(interaction == null) return;
-        if(enabledHarvesters.contains(interaction)){
-            enabledHarvesters.remove(interaction);
+        if(enabledHarvesters.contains(interaction.getUniqueId().toString())){
+            enabledHarvesters.remove(interaction.getUniqueId().toString());
             ParticleBuilder builder = new ParticleBuilder(Particle.REDSTONE);
             builder.color(Color.BLACK);
             builder.location(interaction.getLocation().add(0,1.5,0));
@@ -83,7 +83,7 @@ public class HarvesterBlock extends CustomBlockModule implements CraftableModule
             builder.spawn();
             interaction.getWorld().playSound(interaction.getLocation(), Sound.BLOCK_NOTE_BLOCK_COW_BELL, 1, 0.5f);
         }else{
-            enabledHarvesters.add(interaction);
+            enabledHarvesters.add(interaction.getUniqueId().toString());
             ParticleBuilder builder = new ParticleBuilder(Particle.REDSTONE);
             builder.color(Color.LIME);
             builder.location(interaction.getLocation().add(0,1.5,0));
@@ -122,7 +122,7 @@ public class HarvesterBlock extends CustomBlockModule implements CraftableModule
                             interaction.getLocation().subtract(0 ,1, 0).getBlock().setBlockData(barrel.getBlockData());
                         }
                         else{
-                            this.internalInventory.get(interaction).addItem(item);
+                            this.internalInventory.get(interaction.getUniqueId().toString()).addItem(item);
                         }
                     }
                 }
@@ -132,9 +132,9 @@ public class HarvesterBlock extends CustomBlockModule implements CraftableModule
 
     @Override
     protected void broken(Interaction interaction, ItemDisplay display) {
-        if(this.enabledHarvesters.contains(interaction))
-            enabledHarvesters.remove(interaction);
-        Inventory inventory = internalInventory.remove(interaction);
+        if(this.enabledHarvesters.contains(interaction.getUniqueId().toString()))
+            enabledHarvesters.remove(interaction.getUniqueId().toString());
+        Inventory inventory = internalInventory.remove(interaction.getUniqueId().toString());
         ItemStack[] contents = inventory.getContents();
         for(ItemStack item : contents){
             if(item == null) continue;
@@ -144,8 +144,12 @@ public class HarvesterBlock extends CustomBlockModule implements CraftableModule
 
     private void tickTimer(){
         Bukkit.getScheduler().scheduleSyncRepeatingTask(Hardcore.instance, ()->{
-            for(Interaction interaction : enabledHarvesters){
-                tickHarvester(interaction);
+            for(String interaction : enabledHarvesters){
+                for(World world : Bukkit.getWorlds()){
+                    if(world.getEntity(UUID.fromString(interaction)) == null) continue;
+                    tickHarvester((Interaction) world.getEntity(UUID.fromString(interaction)));
+                    break;
+                }
             }
         }, 2, 2);
     }

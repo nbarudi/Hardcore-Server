@@ -170,6 +170,8 @@ public class BardgoBoss extends Boss {
             bossBar.color(BossBar.Color.values()[random.nextInt(0, BossBar.Color.values().length)]);
         }, 3 ,3);
 
+        applyModel("the-traveler");
+
         this.damageCause.clear();
         this.damageRecord.clear();
         secondStage = false;
@@ -283,6 +285,8 @@ public class BardgoBoss extends Boss {
             self.setAI(false);
             self.setInvulnerable(true);
 
+            playAnimation("second-stage");
+
             spawnTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(Hardcore.instance, () ->{
                 if(self == null) return;
                 if(!(self.getHealth() < maxHealth.getValue())) {
@@ -341,7 +345,8 @@ public class BardgoBoss extends Boss {
                     if(!secondStageStarting)
                         self.getWorld().playSound(bossVoice);
                     Bukkit.getScheduler().runTaskLater(Hardcore.instance, () ->{
-                        messageAllInRange("How about I return some of that damage!", 30);
+                        if(!secondStage) return;
+                        messageAllInRange("&cHow about I return some of that damage!", 30);
                     }, 260);
                     Bukkit.getScheduler().runTaskLater(Hardcore.instance, () -> {
                         damageCause.put(cause, 0.0D);
